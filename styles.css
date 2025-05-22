@@ -1,0 +1,199 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.Menubar {
+    padding-top: 10px;
+    background: #2A7B9B;
+    background: linear-gradient(20deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+    width: 100%;
+    max-height: 60px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 2px 2px 2px 2px lightblue;
+    position: sticky;
+}
+
+.icon {
+    margin-left: 10px;
+    margin-right: 5px;
+    background-color: beige;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    box-shadow: 0px 2px 0px 0px rgba(100, 100, 100, 0.4);
+    
+}
+
+#LeftMenu, #RightMenu {
+    display: inline-flex;
+}
+
+#RightMenu {
+    padding-right: 10px;
+}
+
+.icon:hover {
+    transform: scale(105%);
+    background-color: rgb(224, 224, 202);
+}
+.SideBar {
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    height: 100VH;
+    width: 75px;
+    padding-top: 20px;
+    background: #2A7B9B;
+    background: linear-gradient(180deg, rgb(187, 207, 214) 0%, rgba(250, 250, 250, 0.76) 100%);
+}
+
+.SideIcon {
+    margin-left: 5px;
+    margin-right: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    background-color: lightcyan;
+    border-radius: 5px;
+    width: 65px;
+    height: 50px;
+    display: inline-flex;
+    box-shadow: 0px 2px 0px 0px rgba(100, 100, 100, 0.4);
+}
+
+.SideIcon:hover {
+    margin-left: 6px;
+    transform: scale(105%);
+    background-color: lightblue;
+
+}
+
+.SideIcon:hover .slideMenu {
+    display: block;
+    background-color: gainsboro;
+    padding: 10px;
+    width: fit-content;
+    position: absolute;
+    margin-left:67px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    
+}
+
+.SideIcon:hover .slideMenu .slideMenuButton {
+    display: flex;
+    width: 100px;
+    font-size: 14px;
+}
+
+.slideMenuButton {
+    margin-bottom: 10px;
+    padding: 10px;
+    display: none;
+    border-radius: 5px;
+    min-width: 60px;
+    border: 2px solid;
+    text-align: center;
+
+}
+
+.slideMenuButton:hover {
+    background-color: darkgray;
+    transform: scale(110%);
+    
+}
+
+#searchBar {
+    margin-left: 50px;
+    width: 350px;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    height: 38px;
+    display: flex;
+    border: 2px solid darkgrey;
+    box-shadow: 0px 2px 0px 0px rgba(100, 100, 100, 0.4);
+}
+
+#searchIcon {
+    display: inline-flex;
+    height: 38px;
+    width: 40px;
+    border-right: 1px solid darkgrey;
+    background-color: lightgray;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+#searchInput {
+    margin-left: 10px;
+    display: inline-flex;
+    height: 40px;
+    width: 290px;
+    background: none;
+    border: none;
+    font-size: 15px;
+}
+
+#searchInput:focus {
+    outline: none;
+}
+
+.bottomBar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: #b9d6e1;
+    height: 200px;
+}
+
+.video {
+    padding-left: 10px;
+    margin-right: 10px;
+    padding-right: 10px;
+    display: inline-flex;
+    width: 180px;
+    height: 220px;
+    border-radius: 20px;
+    flex-direction: column;
+    box-sizing: border-box;
+    vertical-align: top;
+
+}
+
+
+.middleSection {
+    display: flex;
+}
+
+#contentMenu {
+    width: calc(100% - 60px);
+    padding: 50px;
+    overflow: auto;
+}
+
+.video:hover {
+    transform: scale(105%);
+    background-color: aliceblue;
+}
+
+.author {
+    font-size: 12px;
+}
+
+.videoIcon {
+    border-radius: 20px;
+    margin-top: 10px;
+    width: 100%;
+    height: 150;
+}
+
