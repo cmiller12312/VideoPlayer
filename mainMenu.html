@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="Menubar">
+            <div id="LeftMenu">
+                <div class="icon" id="homeButton">
+                    <img class="iconImage" src="resources/HomeIcon.png"></img>
+                </div>
+                <div id="searchBar">
+                    <div id="searchIcon">
+                        <img class="iconImage" src="resources/SearchIcon.png" id="searchIconImage"></img>
+                    </div>
+                    <input type="text" placeholder="Search..." id="searchInput">
+                </div>
+            </div>
+            <div id="RightMenu">
+                <div class="icon" id="profilePicture"></div>
+                <div class="icon" id="Settings">
+                    <img class="iconImage" src="resources/SettingsIcon.png"></img>
+                </div>
+            </div>
+        </div>
+        
+        <div class="middleSection">
+            <div class="SideBar">
+                <div class="SideIcon">
+                    <div class="slideMenu">
+                        <div class="slideMenuButton">Channel Page</div>
+                        <div class="slideMenuButton">Channel Settings</div>
+                        <div class="slideMenuButton">Upload Video</div>
+                    </div>
+                </div>
+                <div class="SideIcon">
+                    <div class="slideMenu">
+                        <div class="slideMenuButton">Button 4</div>
+                        <div class="slideMenuButton">Button 5</div>
+                    </div>
+                </div>
+                <div class="SideIcon">
+                    <div class="slideMenu">
+                        <div class="slideMenuButton">Info</div>
+                    </div>
+                </div>
+            </div>
+            <div id="contentMenu" >
+                <div class="tags">
+                    <script>
+                        // for(let i = 0; i < 40;i++){
+                        //     const tag = document.getElementsByClassName("tags")[0]
+                        //     tag.appendChild(window.versions.createTag("Really-long-tag-for-practice"))
+                        // }
+                    </script>
+                    <script>
+                        const tagsContainer = document.getElementsByClassName("tags")[0];
+                        if(tagsContainer.childElementCount == 2)
+                        {
+                            tagsContainer.style.display = "none"
+                        }
+                    </script>
+                    
+                </div>
+                <div id="tagBar" style="background-color: rgba(125, 120, 151, 0.201); margin: 10px auto; max-width: 100%; height: 5px; width: 100%; display: flex; border-radius: 50px;"></div>
+        
+                <script>
+                    for(let i = 0; i < 40;i++){
+                        const temp = document.getElementById("contentMenu")
+                        temp.appendChild(window.api.createVideo("title", "user1"))
+                    }
+                    const temp = document.getElementById("contentMenu")
+                    temp.appendChild(window.api.createVideo("title", "user1"))
+                </script>
+                
+        
+            </div>
+
+            
+        </div>
+    
+
+
+        </div>
+    </body>
+</html>
