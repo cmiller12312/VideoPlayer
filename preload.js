@@ -1,8 +1,10 @@
-const { contextBridge } = require('electron/renderer')
+const { contextBridge, ipcRenderer } = require('electron/renderer')
 
 contextBridge.exposeInMainWorld('api', {
   createVideo: (titleParam, authorParam) => createVideo(titleParam, authorParam),
   createTag: (tagName) => createTag(tagName),
+  settings: () => ipcRenderer.send("settings"),
+  home: () => ipcRenderer.send("home"),
 })
 
 function createVideo(titleParam, authorParam) {
@@ -11,7 +13,7 @@ function createVideo(titleParam, authorParam) {
 
   const videoIcon = document.createElement("img");
   videoIcon.className = "videoIcon";
-  videoIcon.src = "resources/test.jpg";
+  videoIcon.src = "test.jpg";
   container.appendChild(videoIcon);
 
   const bottomSection = document.createElement("div");
@@ -39,9 +41,9 @@ function createVideo(titleParam, authorParam) {
   extraBtn.className = "extraBtn"
   bottomSection.appendChild(extraBtn)
 
-  const extraImg = document.createElement("img")
-  extraImg.className = "extraImg"
-  extraImg.src = "resources/MoreIcon.png"
+  const extraImg = document.createElement("i")
+  extraImg.className = "fas fa-ellipsis-vertical";
+  extraImg.style.fontSize = "20px"
   extraBtn.appendChild(extraImg)
 
   return container;
@@ -60,10 +62,8 @@ function createTag(tagName){
   closeBtn.className = "tagClose";
   container.appendChild(closeBtn);
 
-  const closeImg = document.createElement("img");
-  closeImg.src =  "resources/CloseIcon.png"
-  closeImg.width = 15
-  closeImg.height = 15
+  const closeImg = document.createElement("i");
+  closeImg.className = "fas fa-xmark";
 
   closeBtn.appendChild(closeImg)
 

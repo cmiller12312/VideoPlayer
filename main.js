@@ -1,10 +1,11 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 const {spawn} = require("child_process")
 
+let win
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -12,9 +13,8 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('mainMenu.html')
+  win.loadFile('resources/mainMenu.html')
   win.setMenu(null)
-  win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
@@ -45,5 +45,13 @@ app.whenReady().then(() => {
     pythonProcess = null;
   }
   });
+
+  ipcMain.on("settings",
+    () => win.loadFile("resources/settings.html"),
+  )
+
+  ipcMain.on("home",
+    () => win.loadFile("resources/mainMenu.html"),
+  )
 
 })

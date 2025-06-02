@@ -4,26 +4,27 @@
         <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="Menubar">
             <div id="LeftMenu">
-                <div class="icon" id="homeButton">
-                    <img class="iconImage" src="resources/HomeIcon.png"></img>
-                </div>
+                <button class="icon" id="homeButton">
+                    <i class="fas fa-home" style="transform: scale(150%);"></i>
+                </button>
                 <div id="searchBar">
-                    <div id="searchIcon">
-                        <img class="iconImage" src="resources/SearchIcon.png" id="searchIconImage"></img>
-                    </div>
+                    <button id="searchIcon">
+                        <i class="fas fa-search" style="transform: scale(110%); margin-top: 12px; margin-left: 14px;"></i>
+                    </button>
                     <input type="text" placeholder="Search..." id="searchInput">
                 </div>
             </div>
             <div id="RightMenu">
                 <div class="icon" id="profilePicture"></div>
-                <div class="icon" id="Settings">
-                    <img class="iconImage" src="resources/SettingsIcon.png"></img>
-                </div>
+                <button class="icon" id="Settings">
+                    <i class="fas fa-cog" style="transform: scale(150%); margin-top: 2px;"></i>
+                </button>
             </div>
         </div>
         
@@ -31,36 +32,25 @@
             <div class="SideBar">
                 <div class="SideIcon">
                     <div class="slideMenu">
-                        <div class="slideMenuButton">Channel Page</div>
-                        <div class="slideMenuButton">Channel Settings</div>
-                        <div class="slideMenuButton">Upload Video</div>
+                        <button class="slideMenuButton">Channel Page</button>
+                        <button class="slideMenuButton">Channel Settings</button>
+                        <button class="slideMenuButton">Upload Video</button>
                     </div>
                 </div>
                 <div class="SideIcon">
                     <div class="slideMenu">
-                        <div class="slideMenuButton">Button 4</div>
-                        <div class="slideMenuButton">Button 5</div>
-                    </div>
-                </div>
-                <div class="SideIcon">
-                    <div class="slideMenu">
-                        <div class="slideMenuButton">Info</div>
+                        <button class="slideMenuButton">Button 4</button>
+                        <button class="slideMenuButton">Button 5</button>
                     </div>
                 </div>
             </div>
             <div id="contentMenu" >
                 <div class="tags">
+                    <button id="addTagButton" class="fas fa-plus"></button>
                     <script>
-                        // for(let i = 0; i < 40;i++){
-                        //     const tag = document.getElementsByClassName("tags")[0]
-                        //     tag.appendChild(window.versions.createTag("Really-long-tag-for-practice"))
-                        // }
-                    </script>
-                    <script>
-                        const tagsContainer = document.getElementsByClassName("tags")[0];
-                        if(tagsContainer.childElementCount == 2)
-                        {
-                            tagsContainer.style.display = "none"
+                        for(let i = 0; i < 40;i++){
+                            const tag = document.getElementsByClassName("tags")[0]
+                            tag.appendChild(window.api.createTag("Really-long-tag-for-practice"))
                         }
                     </script>
                     
@@ -76,7 +66,6 @@
                     temp.appendChild(window.api.createVideo("title", "user1"))
                 </script>
                 
-        
             </div>
 
             
@@ -85,5 +74,7 @@
 
 
         </div>
+        <button class="infoButton"><i class="fas fa-circle-info" style="transform: scale(110%);"></i></button>
+        <script src="render.js"></script>
     </body>
 </html>
