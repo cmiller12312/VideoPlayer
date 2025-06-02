@@ -8,6 +8,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     </head>
     <body>
+        <script src="render.js"></script>
         <div class="Menubar">
             <div id="LeftMenu">
                 <button class="icon" id="homeButton">
@@ -21,7 +22,7 @@
                 </div>
             </div>
             <div id="RightMenu">
-                <div class="icon" id="profilePicture"></div>
+                <button class="icon" id="profilePicture"></button>
                 <button class="icon" id="Settings">
                     <i class="fas fa-cog" style="transform: scale(150%); margin-top: 2px;"></i>
                 </button>
@@ -50,7 +51,7 @@
                     <script>
                         for(let i = 0; i < 40;i++){
                             const tag = document.getElementsByClassName("tags")[0]
-                            tag.appendChild(window.api.createTag("Really-long-tag-for-practice"))
+                            tag.appendChild(createTag("Really-long-tag-for-practice"))
                         }
                     </script>
                     
@@ -60,10 +61,10 @@
                 <script>
                     for(let i = 0; i < 40;i++){
                         const temp = document.getElementById("contentMenu")
-                        temp.appendChild(window.api.createVideo("title", "user1"))
+                        temp.appendChild(createVideo("title", "user1"))
                     }
                     const temp = document.getElementById("contentMenu")
-                    temp.appendChild(window.api.createVideo("title", "user1"))
+                    temp.appendChild(createVideo("title", "user1"))
                 </script>
                 
             </div>
@@ -75,6 +76,6 @@
 
         </div>
         <button class="infoButton"><i class="fas fa-circle-info" style="transform: scale(110%);"></i></button>
-        <script src="render.js"></script>
+    
     </body>
 </html>

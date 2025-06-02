@@ -48,6 +48,7 @@ body {
     display: inline-flex;
     justify-content: center;   
     align-items: center;
+    border: none;
     
 }
 
@@ -383,6 +384,7 @@ body {
     min-height: 35px;
     background-color: beige;
     border-radius: 50px;
+    border: none;
 }
 
 .extraBtn {

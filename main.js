@@ -15,6 +15,7 @@ const createWindow = () => {
 
   win.loadFile('resources/mainMenu.html')
   win.setMenu(null)
+  win.title = ""
 }
 
 app.whenReady().then(() => {
@@ -52,6 +53,10 @@ app.whenReady().then(() => {
 
   ipcMain.on("home",
     () => win.loadFile("resources/mainMenu.html"),
+  )
+
+  ipcMain.on("userPage",
+    (user) => win.loadFile("resources/userPage.html")
   )
 
 })
