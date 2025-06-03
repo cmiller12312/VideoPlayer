@@ -4,6 +4,8 @@ const {spawn} = require("child_process")
 const { stringify } = require('node:querystring')
 
 let win
+let python
+let pythonCache = []
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -31,12 +33,12 @@ app.whenReady().then(() => {
   const executablePath = path.join(__dirname, "dist", "main.exe");
   console.log("Launching executable at:", executablePath);
 
-  const python = spawn(executablePath, {
+  python = spawn(executablePath, {
     stdio: ["pipe", "pipe", "inherit"],
   });
 
   python.stdout.on('data', (data) => {
-  console.log('From binary:', data.toString());
+    pythonHandler(data.toString());
   });
 
   python.on("error", (err) => {
@@ -65,6 +67,23 @@ app.whenReady().then(() => {
 async function userPage(user){
   console.log("userPage")
   console.log(user)
+  const userData = {
+    type: "userPageRequest",
+    content: user
+  }
+
+  
+  if (python && python.stdin.writable) {
+    python.stdin.write(JSON.stringify(userData) + "\n");
+  } else {
+    console.error("Python is not writable");
+  }
   
   return user
+}
+
+async function pythonHandler(data) {
+  console.log(data)
+  const obj = JSON.parse(data)
+  console.log(obj["type"])
 }

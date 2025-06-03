@@ -1,14 +1,16 @@
 import sys
 import time
+import json
 
 def main():
-        try:
-            while True:
-                    time.sleep(1)
-                    sys.stdout.write("hi\n") 
-                    sys.stdout.flush()
-        except(OSError):
-            sys.exit(0)
+        while(True):
+            try:
+                temp = input()
+                jsonData = json.loads(temp)
+                data = {"type": "userData", "value":jsonData["content"]}
+                print(json.dumps(data), flush=True)
+            except:
+                sys.exit()
     
 
 main()
