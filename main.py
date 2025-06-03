@@ -1,18 +1,24 @@
 import sys
-import time
+import controller
 import json
 
 def main():
+        connector = controller.controller()
         while(True):
+            #Takes json data from main.js to call some function within the python modules.
             try:
                 temp = input()
-                jsonData = json.loads(temp)
-                data = {"type": "userData", "value":jsonData["content"]}
-                print(json.dumps(data), flush=True)
             except:
                 sys.exit()
+            jsonData = json.loads(temp)
+            connector.run(jsonData)
+            data = {"type": "userData", "value":jsonData["content"]}
+            print(json.dumps(data), flush=True)
+
     
 
-main()
+
+if __name__ == "__main__":
+    main()
 
 
