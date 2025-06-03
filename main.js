@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 const {spawn} = require("child_process")
+const { stringify } = require('node:querystring')
 
 let win
 
@@ -16,6 +17,8 @@ const createWindow = () => {
   win.loadFile('resources/mainMenu.html')
   win.setMenu(null)
   win.title = ""
+  win.webContents.openDevTools();
+
 }
 
 app.whenReady().then(() => {
@@ -55,8 +58,13 @@ app.whenReady().then(() => {
     () => win.loadFile("resources/mainMenu.html"),
   )
 
-  ipcMain.on("userPage",
-    (user) => win.loadFile("resources/userPage.html")
-  )
+  ipcMain.handle("userPage", (event, user) => userPage(user))
 
 })
+
+async function userPage(user){
+  console.log("userPage")
+  console.log(user)
+  
+  return user
+}

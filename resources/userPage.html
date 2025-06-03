@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+    <script src="renderFunctions.js"></script>
     <div class="Menubar">
             <div id="LeftMenu">
                 <button class="icon" id="homeButton">
@@ -30,6 +31,15 @@
         </div>
     </div>
 
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const user = window.api.getUserData();
+            while (!user) {
+                user = window.api.getUserData();
+            console.log(user)
+        });
+
+    </script>
     <script src="render.js"></script>
 </body>
 </html>
