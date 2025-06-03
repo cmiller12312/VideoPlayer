@@ -19,7 +19,7 @@ const createWindow = () => {
   win.loadFile('resources/mainMenu.html')
   win.setMenu(null)
   win.title = ""
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
 }
 
