@@ -11,3 +11,6 @@ class controller:
         type = data["type"]
         if type == "userPageRequest":
             pass
+
+        if type == "videoPageRequest":
+            pass

@@ -6,9 +6,10 @@ class connection:
 
     def post(self, data):
         request = requests.post(url=self.host, json=data)
+        print(request.reason)
         
 
 
 if __name__ == "__main__":
-    print("testing")
-    connection("http://127.0.0.1:8000/signup/").post({"username":"user1", "password":"password"})
+    data = connection("http://127.0.0.1:8000/signup/").post({"username":"user2", "password":"password"})
+    
