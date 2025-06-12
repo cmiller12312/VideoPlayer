@@ -13,8 +13,6 @@ def main():
                 sys.exit()
             jsonData = json.loads(temp)
             connector.run(jsonData)
-            data = {"type": "userData", "value":jsonData["content"]}
-            print(json.dumps(data), flush=True)
 
     
 

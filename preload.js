@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('api', {
     userData = await ipcRenderer.invoke("userPage", user)
     console.log(userData)
   },
+  login: async (username, password) => console.log(await ipcRenderer.invoke("login", username, password)),
   getUserData: () => userData,
 })

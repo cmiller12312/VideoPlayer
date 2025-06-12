@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('background.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            margin: 5% auto;
+            width: 40%;
+            background: #833AB4;
+            background: linear-gradient(347deg,rgba(131, 58, 180, 0.8) 0%, rgba(253, 29, 29, 0.8) 50%, rgba(252, 176, 69, 0.9) 100%);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(62, 49, 4, 0.5);
+        }
+
+        .login-container h2 {
+            color: #fff4df;
+            font-family: Nunito; 
+            font-weight:400; 
+            font-size: 40px;
+            
+        }
+
+        .login-container input[type="text"]
+        {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            margin-top: 0px;
+            height: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container input[type="password"] {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 20px;
+        }
+
+        .login-container button[type="submit"] {
+            width: 85%;
+            padding: 12px;
+            background-color: #ffa500;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-container button[type="submit"]:hover {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            background-color: #e69500;
+            cursor: pointer;
+            transform: scale(1.05);
+
+        }
+
+        #NoAcc{
+            border: transparent;
+            background-color: transparent;
+            color: #ffc04c;
+            margin-top: 15px;
+        }
+
+        #NoAcc:hover{
+            cursor:pointer;
+            transform: scale(1.05);
+        }
+
+        .popup{
+            position: absolute;
+            margin-top: 15px;
+            margin-left: 10%;
+            width: 80%;
+            margin-right: 10%;
+            height: 50px;
+            background-color: red;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(62, 49, 4, 0.5);
+            text-align: center;
+            font-size: 30px;
+            padding-top: 15px;
+            font-weight: 400;
+            color: #fff4df;
+            font-family: Nunito; 
+            animation: slideInOut 5s ease-in-out forwards;
+        }
+
+        @keyframes slideInOut {
+            0% {
+                top: -100px;
+                opacity: 0;
+            }
+            20% {
+                top: 25px;
+                opacity: 1;
+            }
+            80% {
+                top: 25px;
+                opacity: 1;
+            }
+            100% {
+                top: -100px;
+                opacity: 0;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="popup">hi</div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form>
+            <input type="text" id="loginUsername" placeholder="Username" required></input>
+            <input type="password" id="loginPassword" placeholder="Password" required></input>
+            <button type="submit" id="loginButton">Sign in</button>
+            <button id="NoAcc">Dont have an account?</button>
+        </form>
+    </div>
+
+    <script>
+        const loginButton = document.getElementById("loginButton");
+        const loginForm = document.querySelector("form");
+
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+            console.log(typeof(username))
+            if (username !== '' && password !== '') {
+                window.api.login(username, password);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -9,8 +9,6 @@ class connection:
 
     def post(self, data):
         request = requests.post(url=self.host, json=data)
-        print(request.json())
-        print(request.json()["message"])
 
     def login(self, data):
         try:
@@ -49,6 +47,12 @@ class connection:
                 return False, "Failed to connect"
         return True, None
 
+    def getUserinfo(self):
+        request = requests.get(self.host + "/userSettings/", headers={"Authorization": self.token})
+        temp = str(request.content)[2:-1]
+        temp = json.loads(temp)
+        print(temp)
+        return True, temp
             
 
 
@@ -62,4 +66,5 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
     video_path = os.path.join(current_dir, "video.mp4")
     tags = json.dumps(["testTag", "testTag2"])
-    print(temp.uploadVideo({"title":"superCoolVideo","description":"my cool new video", "videoPath": video_path, "tags": tags }))
+    print(temp.uploadVideo({"title":"superCoolVideo2","description":"my cool new video", "videoPath": video_path, "tags": tags }))
+    temp.getUserinfo()

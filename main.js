@@ -1,11 +1,11 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron')
 const path = require('node:path')
 const {spawn} = require("child_process")
 const { stringify } = require('node:querystring')
 
 let win
 let python
-let pythonCache = []
+let loginResponseResolver = null;
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -16,10 +16,10 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('resources/mainMenu.html')
+  win.loadFile('resources/loginPage.html')
   win.setMenu(null)
   win.title = ""
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
 }
 
@@ -62,7 +62,28 @@ app.whenReady().then(() => {
 
   ipcMain.handle("userPage", (event, user) => userPage(user))
 
+  ipcMain.handle("login",
+    (event, username, password) => login(username, password),
+  )
+
 })
+
+function login(username, password) {
+  return new Promise((resolve, reject) => {
+    loginResponseResolver = resolve;
+    const userData = {
+      type: "loginPageRequest",
+      username: username,
+      password: password
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(userData) + "\n");
+    } else {
+        loginResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+}
 
 async function userPage(user){
   console.log("userPage")
@@ -85,5 +106,13 @@ async function userPage(user){
 async function pythonHandler(data) {
   console.log(data)
   const obj = JSON.parse(data)
-  console.log(obj["type"])
+  if(obj["type"] == "loginResponse"){
+    if(obj["value"] === true){
+      win.loadFile("resources/mainMenu.html")
+    }
+    if (loginResponseResolver) {
+      loginResponseResolver(obj["message"]);
+      loginResponseResolver = null;
+    }
+  }
 }
