@@ -94,8 +94,9 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(62, 49, 4, 0.5);
             text-align: center;
-            font-size: 30px;
-            padding-top: 15px;
+            font-size: 15px;
+            padding-top: 20px;
+            overflow-x: hidden;
             font-weight: 400;
             color: #fff4df;
             font-family: Nunito; 
@@ -125,7 +126,6 @@
 
 </head>
 <body>
-    <div class="popup">hi</div>
     <div class="login-container">
         <h2>Login</h2>
         <form>
@@ -140,13 +140,24 @@
         const loginButton = document.getElementById("loginButton");
         const loginForm = document.querySelector("form");
 
-        loginForm.addEventListener("submit", (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const username = document.getElementById("loginUsername").value;
             const password = document.getElementById("loginPassword").value;
-            console.log(typeof(username))
             if (username !== '' && password !== '') {
-                window.api.login(username, password);
+                const result = await window.api.login(username, password);
+                if (Array.isArray(result) && result[0] === false) {
+                    const oldPopup = document.querySelector(".popup");
+                    if (oldPopup) oldPopup.remove();
+
+                    const popup = document.createElement("div");
+                    popup.className = "popup";
+                    popup.textContent = result[1];
+                    document.body.appendChild(popup);
+                    setTimeout(() => {
+                        popup.remove();
+                    }, 5000);
+                }
             }
         });
     </script>

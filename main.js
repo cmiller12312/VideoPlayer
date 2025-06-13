@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron')
 const path = require('node:path')
 const {spawn} = require("child_process")
 const { stringify } = require('node:querystring')
+const { spawnSync } = require('node:child_process')
 
 let win
 let python
@@ -25,6 +26,21 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow()
+
+  ipcMain.on("settings",
+    () => win.loadFile("resources/settings.html"),
+  )
+
+  ipcMain.on("home",
+    () => win.loadFile("resources/mainMenu.html"),
+  )
+
+  ipcMain.handle("userPage", (event, user) => userPage(user))
+
+  ipcMain.handle("login",
+    (event, username, password) => login(username, password),
+  )
+
   const { spawn } = require("child_process");
 
 
@@ -52,19 +68,6 @@ app.whenReady().then(() => {
   }
   });
 
-  ipcMain.on("settings",
-    () => win.loadFile("resources/settings.html"),
-  )
-
-  ipcMain.on("home",
-    () => win.loadFile("resources/mainMenu.html"),
-  )
-
-  ipcMain.handle("userPage", (event, user) => userPage(user))
-
-  ipcMain.handle("login",
-    (event, username, password) => login(username, password),
-  )
 
 })
 
@@ -111,7 +114,7 @@ async function pythonHandler(data) {
       win.loadFile("resources/mainMenu.html")
     }
     if (loginResponseResolver) {
-      loginResponseResolver(obj["message"]);
+      loginResponseResolver([obj["value"], obj["message"]]);
       loginResponseResolver = null;
     }
   }
