@@ -51,9 +51,20 @@ class connection:
         request = requests.get(self.host + "/userSettings/", headers={"Authorization": self.token})
         temp = str(request.content)[2:-1]
         temp = json.loads(temp)
-        print(temp)
         return True, temp
-            
+    
+    def postUserInfo(self, *args, **kwargs):
+        pfp = None
+        
+        try:
+            pfp = kwargs.get("image")
+        except:
+            pass
+
+        if pfp != None:
+            with open(pfp, "rb") as file:
+                return requests.post(self.host + "/userSettings/", headers={"Authorization": self.token}, files={"image": file})
+    
 
 
 
@@ -67,4 +78,5 @@ if __name__ == "__main__":
     video_path = os.path.join(current_dir, "video.mp4")
     tags = json.dumps(["testTag", "testTag2"])
     print(temp.uploadVideo({"title":"superCoolVideo2","description":"my cool new video", "videoPath": video_path, "tags": tags }))
-    temp.getUserinfo()
+    print(temp.postUserInfo(image="cat.png"))
+    print(temp.getUserinfo())

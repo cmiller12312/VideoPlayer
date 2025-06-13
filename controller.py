@@ -2,11 +2,13 @@ import DStools
 import asyncio
 import json
 import backendHandler
+import userStore
 
 class controller:
     def __init__(self):
         self.instances = dict()
         self.instances["connection"] = backendHandler.connection("http://127.0.0.1:8000/")
+        
 
             
 
@@ -15,14 +17,20 @@ class controller:
         if type == "userPageRequest":
             pass
 
-        if type == "videoPageRequest":
+        elif type == "videoPageRequest":
             pass
 
-        if type=="videosPageRequest":
+        elif type=="videosPageRequest":
             pass
 
-        if type=="loginPageRequest":
+        elif type=="loginPageRequest":
             results, message = self.instances["connection"].login({"username":data["username"], "password":data["password"]})
 
             data = {"type": "loginResponse", "value":results, "message":message}
             print(json.dumps(data), flush=True)
+            if results:
+                self.instances["userData"] = userStore.user(self.instances["connection"])
+        elif type=="userPfpRequest":
+            data = {"type": "userPfpResponse", "pfp":self.instances["userData"].getProfilePicture()}
+            print(json.dumps(data), flush=True)
+        return True

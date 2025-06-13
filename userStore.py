@@ -1,0 +1,15 @@
+class user():
+    #class designed to store frequently needed user data so no request to server is needed
+    def __init__(self, connection):
+        status, self.pfp = connection.getUserinfo()
+
+
+    def setProfilePicture(self, image):
+        self.pfp = image
+
+    def getProfilePicture(self):
+        return self.pfp
+    
+
+    
+

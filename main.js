@@ -7,6 +7,7 @@ const { spawnSync } = require('node:child_process')
 let win
 let python
 let loginResponseResolver = null;
+let userPfpResponseResolver = null;
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -41,6 +42,8 @@ app.whenReady().then(() => {
     (event, username, password) => login(username, password),
   )
 
+
+  ipcMain.handle("getUserPfp", () => getUserPfp())
   const { spawn } = require("child_process");
 
 
@@ -88,6 +91,22 @@ function login(username, password) {
   });
 }
 
+function getUserPfp(){
+  return new Promise((resolve, reject) => {
+    userPfpResponseResolver = resolve;
+    const data = {
+      type: "userPfpRequest"
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(data) + "\n");
+    } else {
+        userPfpResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+}
+  
+
 async function userPage(user){
   console.log("userPage")
   console.log(user)
@@ -117,5 +136,9 @@ async function pythonHandler(data) {
       loginResponseResolver([obj["value"], obj["message"]]);
       loginResponseResolver = null;
     }
+  }
+  if(obj["type"] == "userPfpResponse"){
+    userPfpResponseResolver(obj["pfp"])
+    userPfpResponseResolver = null;
   }
 }
