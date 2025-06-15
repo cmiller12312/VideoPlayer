@@ -1,66 +1,71 @@
-function createVideo(titleParam, authorParam) {
-  const container = document.createElement("div");
-  container.className = "video";
+function createVideo(title, user, coverImg, userPfp) {
+  const card = document.createElement('div');
+  card.className = 'videoCard';
 
-  const videoIcon = document.createElement("img");
-  videoIcon.className = "videoIcon";
-  videoIcon.src = "test.jpg";
-  container.appendChild(videoIcon);
+  const thumbnail = document.createElement('img');
+  thumbnail.className = 'videoThumbnail';
+  thumbnail.src = coverImg;
+  thumbnail.alt = `${title} thumbnail`;
 
-  const bottomSection = document.createElement("div");
-  bottomSection.className = "videoBottomSection";
-  container.appendChild(bottomSection);
+  const info = document.createElement('div');
+  info.className = 'videoInfo';
 
-  const userIcon = document.createElement("button");
-  userIcon.className = "videoUserIcon";
-  userIcon.addEventListener("click", () => window.api.userPage(authorParam))
-  bottomSection.appendChild(userIcon);
+  const userSection = document.createElement('div');
+  userSection.className = 'videoUserSection';
 
-  const textSection = document.createElement("div");
-  bottomSection.appendChild(textSection);
+  const avatar = document.createElement('img');
+  avatar.className = 'videoUserPfp';
+  avatar.src = userPfp;
+  avatar.alt = `${user}'s profile picture`;
 
-  const title = document.createElement("p");
-  title.textContent = titleParam;
-  title.className = "title";
-  textSection.appendChild(title);
+  const textInfo = document.createElement('div');
+  textInfo.className = 'videoText';
 
-  const author = document.createElement("p");
-  author.textContent = authorParam;
-  author.className = "author";
-  textSection.appendChild(author);
+  const videoTitle = document.createElement('div');
+  videoTitle.className = 'videoTitle';
+  videoTitle.innerText = title;
 
-  const extraBtn = document.createElement("button")
-  extraBtn.className = "extraBtn"
-  bottomSection.appendChild(extraBtn)
+  const videoUser = document.createElement('div');
+  videoUser.className = 'videoUser';
+  videoUser.innerText = user;
 
-  const extraImg = document.createElement("i")
-  extraImg.className = "fas fa-ellipsis-vertical";
-  extraImg.style.fontSize = "20px"
-  extraBtn.appendChild(extraImg)
+  textInfo.appendChild(videoTitle);
+  textInfo.appendChild(videoUser);
 
+  userSection.appendChild(avatar);
+  userSection.appendChild(textInfo);
 
-  return container;
+  const actionBtn = document.createElement('button');
+  actionBtn.className = 'videoActionBtn';
+  actionBtn.innerHTML = '<i class="fas fa-ellipsis-vertical"></i>';
+
+  info.appendChild(userSection);
+  info.appendChild(actionBtn);
+
+  card.appendChild(thumbnail);
+  card.appendChild(info);
+
+  return card;
 }
 
-function createTag(tagName){
-  const container = document.createElement("div");
-  container.className = "tag";
 
-  const text = document.createElement("p");
-  text.className = "tagText";
-  text.textContent = tagName
-  container.appendChild(text);
 
-  const closeBtn = document.createElement("button");
-  closeBtn.className = "tagClose";
-  container.appendChild(closeBtn);
+function createTag(name) {
+  const tag = document.createElement('div');
+  tag.className = 'tagItem';
 
-  const closeImg = document.createElement("i");
-  closeImg.className = "fas fa-xmark";
+  const span = document.createElement('span');
+  span.innerText = name;
 
-  closeBtn.appendChild(closeImg)
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'removeTagBtn';
+  removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+  removeBtn.onclick = () => tag.remove();
 
-  return container
+  tag.appendChild(span);
+  tag.appendChild(removeBtn);
 
+  return tag;
 }
+
 
