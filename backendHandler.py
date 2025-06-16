@@ -81,7 +81,6 @@ class connection:
     
     def getVideoBatch(self):
         try:
-            print(self.token)
             request = requests.get(self.host + "/getVideoBatch/", headers={"Authorization": self.token})
         except:
             try:

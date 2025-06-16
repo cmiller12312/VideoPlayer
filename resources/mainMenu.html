@@ -88,7 +88,6 @@
 
     .middleSection {
       display: flex;
-      margin-top: 20px;
     }
 
     .SideBar {
@@ -241,6 +240,7 @@
     }
 
     .videoCard {
+    position: relative;
     width: 200px;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
@@ -264,6 +264,19 @@
     height: 170px;
     object-fit: cover;
     display: block;
+    }
+
+    .VideoTime {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    color: var(--text);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 1;
+    pointer-events: none;
+    font-weight: 300;
     }
 
     .videoInfo {
@@ -392,19 +405,16 @@
         </script>
       </div>
 
-      <div id="tagBar"></div>
-
       <script>
-        for (let i = 0; i < 10; i++) {
-          const temp = document.getElementById("contentMenu");
-          temp.appendChild(createVideo("Video Title", "user1", "test.jpg"));
-        }
 
         const pfp = document.getElementById("profilePicture");
         window.api.getUserPfp().then((data) => {
           const imageUrl = `data:image/png;base64,${data["pfp"]}`;
           pfp.style.backgroundImage = `url(${imageUrl})`;
+
+        getVideoBatch()
         });
+
       </script>
     </div>
   </div>

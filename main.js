@@ -8,6 +8,8 @@ let win
 let python
 let loginResponseResolver = null;
 let userPfpResponseResolver = null;
+let getVideoBatchResponseResolver = null;
+let pythonBuffer = "";
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -21,7 +23,7 @@ const createWindow = () => {
   win.loadFile('resources/loginPage.html')
   win.setMenu(null)
   win.title = ""
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
 }
 
@@ -44,6 +46,7 @@ app.whenReady().then(() => {
 
 
   ipcMain.handle("getUserPfp", () => getUserPfp())
+  ipcMain.handle("getVideoBatch", () => getVideoBatch())
   const { spawn } = require("child_process");
 
 
@@ -56,8 +59,16 @@ app.whenReady().then(() => {
     stdio: ["pipe", "pipe", "inherit"],
   });
 
+
   python.stdout.on('data', (data) => {
-    pythonHandler(data.toString());
+    pythonBuffer += data.toString();
+    let lines = pythonBuffer.split('\n');
+    pythonBuffer = lines.pop();
+    for (const line of lines) {
+      if (line.trim()) {
+        pythonHandler(line);
+      }
+    }
   });
 
   python.on("error", (err) => {
@@ -70,6 +81,8 @@ app.whenReady().then(() => {
     pythonProcess = null;
   }
   });
+
+
 
 
 })
@@ -125,6 +138,22 @@ async function userPage(user){
   return user
 }
 
+async function getVideoBatch(){
+   return new Promise((resolve, reject) => {
+    getVideoBatchResponseResolver = resolve;
+    const data = {
+      type: "getVideoBatchRequest"
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(data) + "\n");
+    } else {
+        getVideoBatchResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+
+}
+
 async function pythonHandler(data) {
   console.log(data)
   const obj = JSON.parse(data)
@@ -137,8 +166,12 @@ async function pythonHandler(data) {
       loginResponseResolver = null;
     }
   }
-  if(obj["type"] == "userPfpResponse"){
+  else if(obj["type"] == "userPfpResponse"){
     userPfpResponseResolver(obj["pfp"])
     userPfpResponseResolver = null;
+  }
+  else if(obj["type"] == "getVideoBatchResponse"){
+    getVideoBatchResponseResolver(obj["titles"])
+    getVideoBatchResponseResolver = null;
   }
 }

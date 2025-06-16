@@ -33,4 +33,9 @@ class controller:
         elif type=="userPfpRequest":
             data = {"type": "userPfpResponse", "pfp":self.instances["userData"].getProfilePicture()}
             print(json.dumps(data), flush=True)
+
+        elif type=="getVideoBatchRequest":
+            results, titles = self.instances["connection"].getVideoBatch()
+            data = {"type": "getVideoBatchResponse", "value":results, "titles": titles}
+            print(json.dumps(data), flush=True)
         return True

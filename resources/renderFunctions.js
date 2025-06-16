@@ -1,11 +1,18 @@
-function createVideo(title, user, coverImg, userPfp) {
+const url = "http://127.0.0.1:8000/"
+
+function createVideo(title, user, coverImg, userPfp, videoLength) {
+  const content = document.getElementById("contentMenu");
   const card = document.createElement('div');
   card.className = 'videoCard';
-
   const thumbnail = document.createElement('img');
   thumbnail.className = 'videoThumbnail';
-  thumbnail.src = coverImg;
-  thumbnail.alt = `${title} thumbnail`;
+  thumbnail.src = `data:image/png;base64,${coverImg}`; 
+
+  const time = document.createElement("div")
+  time.className = 'VideoTime'
+  time.textContent = formatDuration(videoLength)
+
+
 
   const info = document.createElement('div');
   info.className = 'videoInfo';
@@ -15,7 +22,7 @@ function createVideo(title, user, coverImg, userPfp) {
 
   const avatar = document.createElement('img');
   avatar.className = 'videoUserPfp';
-  avatar.src = userPfp;
+  avatar.src = `data:image/png;base64,${userPfp}`;
   avatar.alt = `${user}'s profile picture`;
 
   const textInfo = document.createElement('div');
@@ -44,8 +51,9 @@ function createVideo(title, user, coverImg, userPfp) {
 
   card.appendChild(thumbnail);
   card.appendChild(info);
+  card.appendChild(time)
 
-  return card;
+  content.append(card)
 }
 
 
@@ -68,13 +76,47 @@ function createTag(name) {
   return tag;
 }
 
-async function fetchVideoBatch(){
-  let videosRecieved = 0
-  fetchNextVideo(videosRecieved)
-  videosRecieved += 1
-
+async function getVideoBatch() {
+  console.log("entered");
+  window.api.getVideoBatch().then(data => {
+    console.log(data);
+    for (const video of data) {
+      retrieveVideo(video.username, video.title);
+    }
+  });
+}
+  
+async function retrieveVideo(username, title) {
+  try {
+    const response = await fetch(url + "getVideo/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, title })
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    createVideo(data["title"], data["username"], data["thumbnail"], data["userPfp"], data["videoLength"])
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 
-async function fetchVideoTitle(title){
-  return 
+function formatDuration(seconds) {
+  console.log("formatting time")
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+
+  const paddedMins = String(mins).padStart(2, '0');
+  const paddedSecs = String(secs).padStart(2, '0');
+
+  if (hrs > 0) {
+    return `${hrs}:${paddedMins}:${paddedSecs}`;
+  } else {
+    return `${paddedMins}:${paddedSecs}`;
+  }
 }
