@@ -135,6 +135,7 @@ async function userPage(user){
     console.error("Python is not writable");
   }
   
+  win.loadFile("resources/userPage.html")
   return user
 }
 

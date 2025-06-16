@@ -335,6 +335,47 @@
     color: #4b5563;
     }
 
+    #AddTagPopup {
+      margin-top: 50px;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 300px;
+    height: 50px;
+    z-index: 1000;
+    animation: slideIn 0.5s ease-out forwards;
+    }
+
+    
+    #tagInput{
+      display: inline;
+      border: 0;
+      width: 240px;
+      height: 100%;
+      margin-left: 15px;
+      background-color: transparent;
+      outline: none;
+      
+    }
+
+    #tagSubmit{
+      display: inline;
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border: 0;
+      font-size: 18px;
+    }
+
+    #tagSubmit:hover{
+      cursor: pointer;
+    }
+
     @keyframes buttonSelect {
       0% {
           transform: scale(100%);
@@ -359,12 +400,42 @@
           }
     }
 
+    @keyframes slideIn {
+    0% {
+      top: -100px;
+      opacity: 0;
+    }
+    60% {
+      top: 25px;
+      opacity: 1;
+    }
+    100% {
+      top: 25px;
+      opacity: 1;
+    }
+    }
+    @keyframes slideOut {
+    0% {
+      top: 25px;
+      opacity: 1;
+    }
+    100% {
+      top: -100px;
+      opacity: 0;
+    }
+    }
+
+
     
   </style>
 </head>
 <body>
   <script src="renderFunctions.js"></script>
 
+  <div id="AddTagPopup">
+    <input type="text" placeholder="Enter tag..." id="tagInput" />
+    <button class="fa-solid fa-arrow-right" id="tagSubmit"></button>
+  </div>
   <div class="Menubar">
     <div id="LeftMenu" style="display: flex; align-items: center;">
       <button class="icon" id="homeButton">
@@ -421,7 +492,25 @@
           getVideoBatch()
           });
 
+        
         </script>
+        <script>
+        const tagButton = document.getElementById("addTagButton");
+        const tagPopup = document.getElementById("AddTagPopup");
+
+        tagButton.addEventListener("click", () => {
+          tagPopup.style.display = "flex";
+          tagPopup.style.animation = "none";
+          void tagPopup.offsetWidth;
+          tagPopup.style.animation = "slideIn 0.5s ease-out forwards";
+        });
+
+        tagSubmit.addEventListener("click", () => {
+          tagPopup.style.animation = "none";
+          tagPopup.style.animation = "slideOut 0.5s ease-out forwards";
+        })
+      </script>
+
       </div>
 
     </div>

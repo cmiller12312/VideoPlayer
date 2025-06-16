@@ -10,35 +10,144 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-    <script src="renderFunctions.js"></script>
+    <style>
+        
+        :root {
+        --bg: #f9f9fb;
+        --card: #ffffff;
+        --cardHover: #e6f5ff;
+        --accent: #6366f1;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        }
+
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+        background-color: var(--bg);
+        color: var(--text);
+        }
+
+        .Menubar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        background-color: var(--card);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        border-bottom: 1px solid var(--border);
+        }
+
+        .icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        transition: 0.3s, color 0.4s;
+        }
+
+        .icon:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
+
+        #searchBar {
+        display: flex;
+        align-items: center;
+        background-color: #f3f4f6;
+        padding: 4px 8px;
+        border-radius: 8px;
+        margin-left: 16px;
+        }
+
+        #searchInput {
+        border: none;
+        background: transparent;
+        outline: none;
+        margin-left: 8px;
+        font-size: 14px;
+        color: var(--text);
+        }
+
+        #profilePicture {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-right: 12px;
+        }
+
+        .infoButton {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background-color: var(--card);
+        border: 1px solid var(--border);
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: 0.3s, color 0.4s;
+        }
+        
+        .infoButton:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
+
+        @keyframes buttonSelect {
+            0% {
+                transform: scale(100%);
+            }
+            60% {
+                transform: scale(110%);
+            }
+            100% {
+                transform: scale(115%);
+            }
+        }
+    </style>
     <div class="Menubar">
-            <div id="LeftMenu">
-                <button class="icon" id="homeButton">
-                    <i class="fas fa-home" style="transform: scale(150%);"></i>
-                </button>
-                <div id="searchBar">
-                    <button id="searchIcon">
-                        <i class="fas fa-search" style="transform: scale(110%); margin-top: 12px; margin-left: 14px;"></i>
-                    </button>
-                    <input type="text" placeholder="Search..." id="searchInput">
-                </div>
-            </div>
-            <div id="RightMenu">
-                <button class="icon" id="profilePicture"></button>
-                <button class="icon" id="Settings">
-                    <i class="fas fa-cog" style="transform: scale(150%); margin-top: 2px;"></i>
-            </button>
-        </div>
+    <div id="LeftMenu" style="display: flex; align-items: center;">
+      <button class="icon" id="homeButton">
+        <i class="fas fa-home" style="font-size: 18px;"></i>
+      </button>
+      <div id="searchBar">
+        <button class="icon" id="searchIcon">
+          <i class="fas fa-search" style="font-size: 16px;"></i>
+        </button>
+        <input type="text" placeholder="Search..." id="searchInput" />
+      </div>
     </div>
 
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            const user = window.api.getUserData();
-            while (!user) {
-                user = window.api.getUserData();
-            console.log(user)
-        });
+    <div id="RightMenu" style="display: flex; align-items: center;">
+      <button class="icon" id="profilePicture"></button>
+      <button class="icon" id="Settings">
+        <i class="fas fa-cog" style="font-size: 18px;"></i>
+      </button>
+    </div>
+  </div>
 
+    <button class="infoButton"><i class="fas fa-circle-info" style="font-size: 16px;"></i></button>
+    <script>
+        const pfp = document.getElementById("profilePicture");
+        window.api.getUserPfp().then((data) => {
+        const imageUrl = `data:image/png;base64,${data["pfp"]}`;
+        pfp.style.backgroundImage = `url(${imageUrl})`;
+        })
     </script>
     <script src="render.js"></script>
 </body>
