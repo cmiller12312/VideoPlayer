@@ -68,4 +68,13 @@ function createTag(name) {
   return tag;
 }
 
+async function fetchVideoBatch(){
+  let videosRecieved = 0
+  fetchNextVideo(videosRecieved)
+  videosRecieved += 1
 
+}
+
+async function fetchVideoTitle(title){
+  return 
+}

@@ -9,80 +9,82 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f9f9fb;
-      --card: #ffffff;
-      --accent: #6366f1;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-    }
+        --bg: #f9f9fb;
+        --card: #ffffff;
+        --cardHover: #e6f5ff;
+        --accent: #6366f1;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Outfit', sans-serif;
-    }
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Outfit', sans-serif;
+        }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-    }
+        body {
+        background-color: var(--bg);
+        color: var(--text);
+        }
 
-    .Menubar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      background-color: var(--card);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      border-bottom: 1px solid var(--border);
-    }
+        .Menubar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        background-color: var(--card);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        border-bottom: 1px solid var(--border);
+        }
 
-    .icon {
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 8px;
-      transition: background 0.2s;
-    }
+        .icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        transition: 0.3s, color 0.4s;
+        }
 
-    .icon:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
+        .icon:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
 
-    #searchBar {
-      display: flex;
-      align-items: center;
-      background-color: #f3f4f6;
-      padding: 4px 8px;
-      border-radius: 8px;
-      margin-left: 16px;
-    }
+        #searchBar {
+        display: flex;
+        align-items: center;
+        background-color: #f3f4f6;
+        padding: 4px 8px;
+        border-radius: 8px;
+        margin-left: 16px;
+        }
 
-    #searchInput {
-      border: none;
-      background: transparent;
-      outline: none;
-      margin-left: 8px;
-      font-size: 14px;
-      color: var(--text);
-    }
+        #searchInput {
+        border: none;
+        background: transparent;
+        outline: none;
+        margin-left: 8px;
+        font-size: 14px;
+        color: var(--text);
+        }
 
-    #profilePicture {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin-right: 12px;
-    }
+        #profilePicture {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-right: 12px;
+        }
 
     .middleSection {
       display: flex;
@@ -143,12 +145,30 @@
 
 
     .tags {
-    display: flex;
-    flex-wrap: auto;
-    gap: 8px;
-    margin-bottom: 16px;
-    width: 100%;
-    flex-basis: 100%;
+      display: flex;
+      flex-wrap: nowrap;  
+      gap: 4px;      
+    
+      overflow-x: auto;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+
+    .tags::-webkit-scrollbar {
+      height: 10px;      
+      background: #f3f4f6;    
+      border-radius: 10px;
+
+    }
+
+    .tags::-webkit-scrollbar-thumb {
+      background: #c7d2fe;   
+      border-radius: 10px;
+      border: 2px solid #eef2ff;  
+    }
+
+    .tags::-webkit-scrollbar-thumb:hover {
+      background: #6366f1;      
     }
 
     .removeTagBtn{
@@ -177,16 +197,24 @@
     }
 
     .infoButton {
-      position: fixed;
-      bottom: 16px;
-      left: 16px;
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background-color: var(--card);
+        border: 1px solid var(--border);
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: 0.3s, color 0.4s;
+        }
+        
+        .infoButton:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
+
+  
 
     .tagItem {
     padding: 6px 14px;
@@ -201,6 +229,8 @@
     transition: background-color 0.2s, color 0.2s, transform 0.2s;
     width: fit-content;
     flex-wrap: nowrap;
+    white-space: nowrap; 
+    flex-shrink: 0; /
     }
 
     .tagItem:hover {
@@ -220,6 +250,13 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    transition: 0.3s, color 0.4s;
+    }
+
+    .videoCard:hover{
+      background-color: var(--cardHover);
+      animation: cardSelect 0.1s ease-in forwards;
+      cursor: pointer;
     }
 
     .videoThumbnail {
@@ -280,6 +317,29 @@
     color: #4b5563;
     }
 
+    @keyframes buttonSelect {
+      0% {
+          transform: scale(100%);
+         }
+      60% {
+          transform: scale(110%);
+          }
+      100% {
+          transform: scale(115%);
+          }
+    }
+
+    @keyframes cardSelect {
+      0% {
+          transform: scale(100%);
+         }
+      60% {
+          transform: scale(102%);
+          }
+      100% {
+          transform: scale(105%);
+          }
+    }
 
     
   </style>
