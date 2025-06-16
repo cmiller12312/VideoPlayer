@@ -126,6 +126,7 @@
     padding: 24px;
     display: flex;
     flex-wrap: wrap;
+    
     gap: 20px;
     align-items: flex-start;
     justify-content: flex-start;
@@ -147,10 +148,12 @@
       display: flex;
       flex-wrap: nowrap;  
       gap: 4px;      
-    
+      max-height: 50px;
       overflow-x: auto;
       align-items: center;
       padding-bottom: 10px;
+      margin-left: 10px;
+      margin-top: 10px;
     }
 
     .tags::-webkit-scrollbar {
@@ -394,7 +397,7 @@
       </div>
     </div>
 
-    <div id="contentMenu">
+    <div style="flex: 1; display: flex; flex-direction: column; overflow-x:hidden;">
       <div class="tags">
         <button id="addTagButton" class="fas fa-plus"></button>
         <script>
@@ -404,18 +407,20 @@
           }
         </script>
       </div>
+      <div id="contentMenu">
+        <script>
 
-      <script>
+          const pfp = document.getElementById("profilePicture");
+          window.api.getUserPfp().then((data) => {
+            const imageUrl = `data:image/png;base64,${data["pfp"]}`;
+            pfp.style.backgroundImage = `url(${imageUrl})`;
 
-        const pfp = document.getElementById("profilePicture");
-        window.api.getUserPfp().then((data) => {
-          const imageUrl = `data:image/png;base64,${data["pfp"]}`;
-          pfp.style.backgroundImage = `url(${imageUrl})`;
+          getVideoBatch()
+          });
 
-        getVideoBatch()
-        });
+        </script>
+      </div>
 
-      </script>
     </div>
   </div>
 
