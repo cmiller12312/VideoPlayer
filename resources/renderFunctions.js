@@ -81,19 +81,19 @@ async function getVideoBatch() {
   window.api.getVideoBatch().then(data => {
     console.log(data);
     for (const video of data) {
-      retrieveVideo(video.username, video.title);
+      retrieveVideo(video.username, video.title, null);
     }
   });
 }
   
-async function retrieveVideo(username, title) {
+async function retrieveVideo(username, title, filters) {
   try {
     const response = await fetch(url + "getVideo/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ username, title })
+      body: JSON.stringify({ username, title, filters})
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
