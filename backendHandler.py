@@ -95,6 +95,10 @@ class connection:
         for i in self.filters:
             if i == data["tag"]:
                 return
+        if len(data["tag"]) == 0:
+            return
+
+        
         self.filters.append(data['tag'])
     def deleteTag(self, data):
         self.filters.remove(data["tag"])
