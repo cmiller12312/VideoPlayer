@@ -12,4 +12,7 @@ contextBridge.exposeInMainWorld('api', {
   getUserData: () => userData,
   getUserPfp: async () => await ipcRenderer.invoke("getUserPfp"),
   getVideoBatch: async () => await ipcRenderer.invoke("getVideoBatch"),
+  addTag: (tag) => ipcRenderer.send("addTag", tag),
+  getTags: async () => ipcRenderer.invoke("getTags"),
+  deleteTag: (tag) => ipcRenderer.send("deleteTag", tag)
 })

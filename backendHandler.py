@@ -6,6 +6,7 @@ class connection:
     def __init__(self, host, *args, **kwargs):
         self.host = host
         self.token = None
+        self.filters = []
 
     def post(self, data):
         request = requests.post(url=self.host, json=data)
@@ -80,14 +81,23 @@ class connection:
         return True, None
     
     def getVideoBatch(self):
+        
         try:
-            request = requests.get(self.host + "/getVideoBatch/", headers={"Authorization": self.token})
+            request = requests.post(self.host + "/getVideoBatch/", headers={"Authorization": self.token}, json={"filters":self.filters})
         except:
             try:
                 return False, request.json()["message"]
             except:
                 return False, "Failed to connect"
         return True, request.json()["Titles"]
+    
+    def addTag(self, data):
+        for i in self.filters:
+            if i == data["tag"]:
+                return
+        self.filters.append(data['tag'])
+    def deleteTag(self, data):
+        self.filters.remove(data["tag"])
 
 
 
@@ -100,13 +110,12 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
     video_path = os.path.join(current_dir, "video.mp4")
     tags = json.dumps(["testTag", "testTag2"])
-    print(temp.uploadVideo({"title":"SuperCoolCatVideoWithLongTitle","description":"my cool new video", "videoPath": video_path, "tags": tags }))
+    #print(temp.uploadVideo({"title":"SuperCoolCatVideoWithLongTitle","description":"my cool new video", "videoPath": video_path, "tags": tags }))
     print(temp.postUserInfo(image="cat.jpg"))
     print(temp.getUserinfo())
     # print(temp.followUser({"username": "catposter20"}))
     # print(temp.followUser({"username": "uncool user"}))
     # print(temp.followUser({"username": "Cool user"}))
     # print(temp.followUser({"username": "user3"}))
-    print(temp.getVideoBatch())
 
 

@@ -12,6 +12,8 @@ function createVideo(title, user, coverImg, userPfp, videoLength) {
   time.className = 'VideoTime'
   time.textContent = formatDuration(videoLength)
 
+  const more = document.createElement("div")
+
 
 
   const info = document.createElement('div');
@@ -42,16 +44,11 @@ function createVideo(title, user, coverImg, userPfp, videoLength) {
   userSection.appendChild(avatar);
   userSection.appendChild(textInfo);
 
-  const actionBtn = document.createElement('button');
-  actionBtn.className = 'videoActionBtn';
-  actionBtn.innerHTML = '<i class="fas fa-ellipsis-vertical"></i>';
-
   info.appendChild(userSection);
-  info.appendChild(actionBtn);
 
   card.appendChild(thumbnail);
   card.appendChild(info);
-  card.appendChild(time)
+  card.appendChild(time);
 
   content.append(card)
 }
@@ -59,6 +56,7 @@ function createVideo(title, user, coverImg, userPfp, videoLength) {
 
 
 function createTag(name) {
+  const tags = document.getElementById("tags");
   const tag = document.createElement('div');
   tag.className = 'tagItem';
 
@@ -67,13 +65,14 @@ function createTag(name) {
 
   const removeBtn = document.createElement('button');
   removeBtn.className = 'removeTagBtn';
+  removeBtn.id = 'removeTagBtn';
   removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-  removeBtn.onclick = () => tag.remove();
+  removeBtn.onclick = () => window.api.deleteTag(span.innerText)
 
   tag.appendChild(span);
   tag.appendChild(removeBtn);
 
-  return tag;
+  tags.appendChild(tag)
 }
 
 async function getVideoBatch() {

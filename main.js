@@ -9,7 +9,9 @@ let python
 let loginResponseResolver = null;
 let userPfpResponseResolver = null;
 let getVideoBatchResponseResolver = null;
+let getTagsResponseResolver = null
 let pythonBuffer = "";
+
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -23,7 +25,7 @@ const createWindow = () => {
   win.loadFile('resources/loginPage.html')
   win.setMenu(null)
   win.title = ""
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
 }
 
@@ -38,6 +40,38 @@ app.whenReady().then(() => {
     () => win.loadFile("resources/mainMenu.html"),
   )
 
+  ipcMain.on("addTag",
+    (event, tag) => {
+      const tagData = {
+      type: "addTagRequest",
+      tag: tag,
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(tagData) + "\n");
+        win.loadFile("resources/mainMenu.html")
+    } else {
+        loginResponseResolver = null;
+        reject("Python is not writable");
+    }
+    }
+  )
+
+  ipcMain.on("deleteTag",
+    (event, tag) => {
+      const tagData = {
+      type: "deleteTagRequest",
+      tag: tag,
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(tagData) + "\n");
+        win.loadFile("resources/mainMenu.html")
+    } else {
+        loginResponseResolver = null;
+        reject("Python is not writable");
+    }
+    }
+  )
+
   ipcMain.handle("userPage", (event, user) => userPage(user))
 
   ipcMain.handle("login",
@@ -47,6 +81,8 @@ app.whenReady().then(() => {
 
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
+  ipcMain.handle("getTags", () => getTags())
+
   const { spawn } = require("child_process");
 
 
@@ -119,6 +155,20 @@ function getUserPfp(){
   });
 }
   
+async function getTags(){
+  return new Promise((resolve, reject) => {
+    getTagsResponseResolver = resolve;
+    const data = {
+      type: "getTagsRequest"
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(data) + "\n");
+    } else {
+        getVideoBatchResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+}
 
 async function userPage(user){
   console.log("userPage")
@@ -175,4 +225,10 @@ async function pythonHandler(data) {
     getVideoBatchResponseResolver(obj["titles"])
     getVideoBatchResponseResolver = null;
   }
+  else if(obj["type"] == "getTagsResponse"){
+    console.log(obj["tags"])
+    getTagsResponseResolver(obj["tags"])
+    getTagsResponseResolver = null;
+  }
+  
 }

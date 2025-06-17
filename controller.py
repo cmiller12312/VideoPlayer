@@ -38,4 +38,15 @@ class controller:
             results, titles = self.instances["connection"].getVideoBatch()
             data = {"type": "getVideoBatchResponse", "value":results, "titles": titles}
             print(json.dumps(data), flush=True)
+
+        elif type=="addTagRequest":
+            self.instances["connection"].addTag(data)
+        elif type=="getTagsRequest":
+            tags = self.instances["connection"].filters
+            data = {"type": "getTagsResponse", "tags":tags}
+            print(json.dumps(data), flush=True)
+        elif type=="deleteTagRequest":
+            self.instances["connection"].deleteTag(data)
+
+
         return True
