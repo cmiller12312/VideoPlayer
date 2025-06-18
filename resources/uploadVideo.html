@@ -168,6 +168,8 @@
         const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
         const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+        const thumbnailPreview = document.getElementById('thumbnailPreview');
+        const thumbnailInput = document.getElementById("thumbnailInput");
         videoInput.data = null
 
         videoInput.addEventListener('click', async function (){
@@ -181,19 +183,31 @@
             
         });
 
-        document.getElementById('videoUploadForm').addEventListener('submit', function (e) {
+        document.getElementById('videoUploadForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             if(videoInput.data === null){
                 console.log("no video selected")
                 return
             }
-            window.api.uploadVideo({"videoUrl": videoInput.data, "cover": "filler", "description":null, "title":"random title", "tags":'["testTag", "second tag"]'})
+            let imageFile = thumbnailInput.files[0];
+
+            let cover = null
+
+            if (imageFile) {
+                cover = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const base64Data = event.target.result.split(",")[1];
+                        resolve(base64Data);
+                    };
+                    reader.readAsDataURL(imageFile);
+                });
+            }
+            window.api.uploadVideo({"videoUrl": videoInput.data, "cover":cover  ,"description":"filler", "title":"random title", "tags":'["testTag", "second tag"]'})
 
             });
         </script>
         <script>
-            const thumbnailInput = document.getElementById('thumbnailInput');
-            const thumbnailPreview = document.getElementById('thumbnailPreview');
             const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
 
             thumbnailInput.addEventListener('change', function () {

@@ -122,9 +122,9 @@ class connection:
 if __name__ == "__main__":
 
     #print(connection("http://127.0.0.1:8000/uploadVideo/").post({"data":"data"}))
-    #print(connection("http://127.0.0.1:8000/").signUp({"username":"user2", "password":"password"}))
+    print(connection("http://127.0.0.1:8000/").signUp({"username":"user3", "password":"password"}))
     temp = connection("http://127.0.0.1:8000/")
-    temp.login({"username":"Cool user", "password":"password"})
+    temp.login({"username":"user3", "password":"password"})
     current_dir = os.path.dirname(__file__)
     video_path = os.path.join(current_dir, "video.mp4")
     tags = json.dumps(["testTag", "testTag2"])
@@ -134,6 +134,6 @@ if __name__ == "__main__":
     # print(temp.followUser({"username": "catposter20"}))
     # print(temp.followUser({"username": "uncool user"}))
     # print(temp.followUser({"username": "Cool user"}))
-    # print(temp.followUser({"username": "user3"}))
+    print(temp.followUser({"username": "user2"}))
 
 
