@@ -20,9 +20,6 @@ class controller:
         elif type == "videoPageRequest":
             pass
 
-        elif type=="videosPageRequest":
-            pass
-
         elif type=="loginPageRequest":
             results, message = self.instances["connection"].login({"username":data["username"], "password":data["password"]})
 
@@ -47,6 +44,14 @@ class controller:
             print(json.dumps(data), flush=True)
         elif type=="deleteTagRequest":
             self.instances["connection"].deleteTag(data)
+
+        elif type=="saveSettingsRequest":
+            self.instances["connection"].saveSettings(data)
+            if data["pfp"] != None:
+                self.instances["userData"].setProfilePicture()
+
+        elif type=="signOutrequest":
+            results, message = self.instances["connection"].signOut()
 
 
         return True

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>   
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <style>
+        
+        :root {
+        --bg: #f9f9fb;
+        --card: #ffffff;
+        --cardHover: #e6f5ff;
+        --accent: #6366f1;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        }
+
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+        background-color: var(--bg);
+        color: var(--text);
+        }
+
+        .Menubar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        background-color: var(--card);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        border-bottom: 1px solid var(--border);
+        }
+
+        .icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        transition: 0.3s, color 0.4s;
+        }
+
+        .icon:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
+
+        #searchBar {
+        display: flex;
+        align-items: center;
+        background-color: #f3f4f6;
+        padding: 4px 8px;
+        border-radius: 8px;
+        margin-left: 16px;
+        }
+
+        #searchInput {
+        border: none;
+        background: transparent;
+        outline: none;
+        margin-left: 8px;
+        font-size: 14px;
+        color: var(--text);
+        }
+
+        #profilePicture {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-right: 12px;
+        }
+
+        .infoButton {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background-color: var(--card);
+        border: 1px solid var(--border);
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: 0.3s, color 0.4s;
+        }
+        
+        .infoButton:hover {
+            background-color: var(--cardHover);
+            animation: buttonSelect 0.3s ease-in forwards;
+        }
+
+        @keyframes buttonSelect {
+            0% {
+                transform: scale(100%);
+            }
+            60% {
+                transform: scale(110%);
+            }
+            100% {
+                transform: scale(115%);
+            }
+        }
+    </style>
+    <div class="Menubar">
+    <div id="LeftMenu" style="display: flex; align-items: center;">
+      <button class="icon" id="homeButton">
+        <i class="fas fa-home" style="font-size: 18px;"></i>
+      </button>
+      <div id="searchBar">
+        <button class="icon" id="searchIcon">
+          <i class="fas fa-search" style="font-size: 16px;"></i>
+        </button>
+        <input type="text" placeholder="Search..." id="searchInput" />
+      </div>
+    </div>
+
+    <div id="RightMenu" style="display: flex; align-items: center;">
+      <button class="icon" id="profilePicture"></button>
+      <button class="icon" id="Settings">
+        <i class="fas fa-cog" style="font-size: 18px;"></i>
+      </button>
+    </div>
+  </div>
+  <div style="max-width: 600px; margin: 40px auto; background: var(--card); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border);">
+    <h2 style="font-weight: 600; margin-bottom: 16px;">Upload a Video</h2>
+    
+    <form id="videoUploadForm">
+        <label style="display: block; font-size: 14px; margin-bottom: 8px;">Choose a video file:</label>
+        <button id="videoInput" name="video" style=" font-size: 200; width: 90px; height: 21px;">Choose Video</button>
+        <div id="videoPreviewContainer" style="margin-top: 24px; display: none;">
+            <h3 style="font-weight: 500; margin-bottom: 8px;">Preview:</h3>
+            <video id="videoPreview" width="100%" controls></video>
+        </div>
+        <label for="thumbnailInput" style="display: block; font-size: 14px; margin-top: 16px; margin-bottom: 8px;">Choose a thumbnail image:</label>
+        <input type="file" id="thumbnailInput" name="thumbnail" accept="image/*" style="margin-bottom: 16px;" />
+        <div id="thumbnailPreviewContainer" style="margin-top: 16px; display: none;">
+            <h3 style="font-weight: 500; margin-bottom: 8px;">Thumbnail Preview:</h3>
+            <img id="thumbnailPreview" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border); max-width: 200px; max-height: 200px;" />
+        </div>
+        
+
+        
+        <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; display: block;">
+            Upload
+        </button>
+    </form>
+
+    <div>
+
+        <script>
+        const videoInput = document.getElementById('videoInput');
+        const videoPreview = document.getElementById('videoPreview');
+        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+
+        videoInput.addEventListener('click', async function (){
+            const filePath = await window.api.openVideoFile()
+            if(filePath != null){
+            videoPreviewContainer.style.display = "block"
+            console.log(filePath)
+            videoPreview.src = filePath
+            videoInput.data = filePath
+            }
+            
+        });
+
+        document.getElementById('videoUploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            console.log("submitted")
+            });
+        </script>
+        <script>
+            const thumbnailInput = document.getElementById('thumbnailInput');
+            const thumbnailPreview = document.getElementById('thumbnailPreview');
+            const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
+
+            thumbnailInput.addEventListener('change', function () {
+                const file = thumbnailInput.files[0];
+                if (file) {
+                    const url = URL.createObjectURL(file);
+                    thumbnailPreview.src = url;
+                    thumbnailPreviewContainer.style.display = 'block';
+                } else {
+                    thumbnailPreviewContainer.style.display = 'none';
+                }
+            });
+        </script>
+
+
+    </div>
+
+    <button class="infoButton"><i class="fas fa-circle-info" style="font-size: 16px;"></i></button>
+    <script>
+        const pfp = document.getElementById("profilePicture");
+        window.api.getUserPfp().then((data) => {
+        const imageUrl = `data:image/png;base64,${data["pfp"]}`;
+        pfp.style.backgroundImage = `url(${imageUrl})`;
+        })
+    </script>
+    <script src="render.js"></script>
+</body>
+</html>

@@ -103,6 +103,20 @@ class connection:
     def deleteTag(self, data):
         self.filters.remove(data["tag"])
 
+    def saveSettings(self, data):
+        try:
+            request = requests.post(self.host + "/userSettings/", headers={"Authorization": self.token}, data=data)
+        except:
+            try:
+                return False, request.json()["message"]
+            except:
+                return False, "Failed to connect"
+        return True, None
+    
+    def signOut(self):
+        self.token = None
+        self.filters = []
+        return True, None
 
 
 if __name__ == "__main__":

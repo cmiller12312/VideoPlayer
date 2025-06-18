@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron')
+const { app, BrowserWindow, ipcMain, systemPreferences, dialog } = require('electron')
 const path = require('node:path')
 const {spawn} = require("child_process")
 const { stringify } = require('node:querystring')
@@ -36,9 +36,26 @@ app.whenReady().then(() => {
     () => win.loadFile("resources/settings.html"),
   )
 
+
+  ipcMain.on("uploadPage",
+    () => win.loadFile("resources/uploadVideo.html"),
+  )
+
   ipcMain.on("home",
     () => win.loadFile("resources/mainMenu.html"),
   )
+
+  
+  ipcMain.handle('open-video-file', async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      filters: [{ name: 'Videos', extensions: ['mp4', 'webm', 'ogg'] }],
+      properties: ['openFile']
+    });
+    if (canceled) return null;
+    console.log(filePaths[0])
+    return filePaths[0];
+  });
+  
 
   ipcMain.on("addTag",
     (event, tag) => {
@@ -50,8 +67,36 @@ app.whenReady().then(() => {
         python.stdin.write(JSON.stringify(tagData) + "\n");
         win.loadFile("resources/mainMenu.html")
     } else {
-        loginResponseResolver = null;
-        reject("Python is not writable");
+        console.log("Python is not writable");
+    }
+    }
+  )
+
+  ipcMain.on("saveSettings",
+    (event, data) => {
+      const settingsData = {
+      type: "saveSettingsRequest",
+      pfp: data.pfp,
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(settingsData) + "\n");
+        win.loadFile("resources/settings.html")
+    } else {
+        console.log("Python is not writable");
+    }
+    }
+  )
+
+  ipcMain.on("signOut",
+    () => {
+      const signOutData = {
+      type: "signOutRequest",
+      };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(signOutData) + "\n");
+        win.loadFile("resources/loginPage.html")
+    } else {
+        console.log("Python is not writable");
     }
     }
   )
@@ -66,8 +111,7 @@ app.whenReady().then(() => {
         python.stdin.write(JSON.stringify(tagData) + "\n");
         win.loadFile("resources/mainMenu.html")
     } else {
-        loginResponseResolver = null;
-        reject("Python is not writable");
+        console.log("Python is not writable");
     }
     }
   )

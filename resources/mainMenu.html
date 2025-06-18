@@ -454,7 +454,7 @@
       <div class="slideMenu">
         <button class="slideMenuButton">Channel Page</button>
         <button class="slideMenuButton">Channel Settings</button>
-        <button class="slideMenuButton">Upload Video</button>
+        <button class="slideMenuButton" id="uploadVideo">Upload Video</button>
       </div>
       <div class="slideMenu">
         <button class="slideMenuButton">Button 4</button>
@@ -483,8 +483,9 @@
         <script>
         const tagButton = document.getElementById("addTagButton");
         const tagPopup = document.getElementById("AddTagPopup");
-        const tagInput = document.getElementById("tagInput")
-        const tagSubmit = document.getElementById("tagSubmit")
+        const tagInput = document.getElementById("tagInput");
+        const tagSubmit = document.getElementById("tagSubmit");
+        const uploadVideo = document.getElementById("uploadVideo");
 
         tagButton.addEventListener("click", () => {
           tagPopup.style.display = "flex";
@@ -497,6 +498,10 @@
           tagPopup.style.animation = "none";
           tagPopup.style.animation = "slideOut 0.5s ease-out forwards";
           window.api.addTag(tagInput.value)
+        })
+
+        uploadVideo.addEventListener("click", () => {
+          window.api.uploadPage()
         })
       </script>
       <script>

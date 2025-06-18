@@ -14,5 +14,9 @@ contextBridge.exposeInMainWorld('api', {
   getVideoBatch: async () => await ipcRenderer.invoke("getVideoBatch"),
   addTag: (tag) => ipcRenderer.send("addTag", tag),
   getTags: async () => ipcRenderer.invoke("getTags"),
-  deleteTag: (tag) => ipcRenderer.send("deleteTag", tag)
+  deleteTag: (tag) => ipcRenderer.send("deleteTag", tag),
+  saveSettings: (data) => ipcRenderer.send("saveSettings", data),
+  signOut: (data) => ipcRenderer.send("signOut"),
+  uploadPage: () => ipcRenderer.send("uploadPage"),
+  openVideoFile: async () => await ipcRenderer.invoke('open-video-file')
 })
