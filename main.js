@@ -3,6 +3,7 @@ const path = require('node:path')
 const {spawn} = require("child_process")
 const { stringify } = require('node:querystring')
 const { spawnSync } = require('node:child_process')
+const { describe } = require('node:test')
 
 let win
 let python
@@ -52,7 +53,6 @@ app.whenReady().then(() => {
       properties: ['openFile']
     });
     if (canceled) return null;
-    console.log(filePaths[0])
     return filePaths[0];
   });
   
@@ -65,6 +65,25 @@ app.whenReady().then(() => {
     };
       if (python && python.stdin.writable) {
         python.stdin.write(JSON.stringify(tagData) + "\n");
+        win.loadFile("resources/mainMenu.html")
+    } else {
+        console.log("Python is not writable");
+    }
+    }
+  )
+
+  ipcMain.on("uploadVideo",
+    (event, data) => {
+      const uploadData = {
+      type: "uploadVideoRequest",
+      url: data["videoUrl"],
+      cover: data["cover"],
+      description: data["description"],
+      title: data["title"],
+      tags: data["tags"],
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(uploadData) + "\n");
         win.loadFile("resources/mainMenu.html")
     } else {
         console.log("Python is not writable");

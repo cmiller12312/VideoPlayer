@@ -35,7 +35,7 @@ class connection:
             
     def uploadVideo(self, data):
         try:
-            path = data["videoPath"]
+            path = data["url"]
         except:
             return False, "video path is not specified"
         try:

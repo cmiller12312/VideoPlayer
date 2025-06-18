@@ -18,5 +18,6 @@ contextBridge.exposeInMainWorld('api', {
   saveSettings: (data) => ipcRenderer.send("saveSettings", data),
   signOut: (data) => ipcRenderer.send("signOut"),
   uploadPage: () => ipcRenderer.send("uploadPage"),
-  openVideoFile: async () => await ipcRenderer.invoke('open-video-file')
+  openVideoFile: async () => await ipcRenderer.invoke('open-video-file'),
+  uploadVideo: (data) => ipcRenderer.send("uploadVideo", data),
 })

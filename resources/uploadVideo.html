@@ -168,6 +168,7 @@
         const videoInput = document.getElementById('videoInput');
         const videoPreview = document.getElementById('videoPreview');
         const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+        videoInput.data = null
 
         videoInput.addEventListener('click', async function (){
             const filePath = await window.api.openVideoFile()
@@ -182,7 +183,12 @@
 
         document.getElementById('videoUploadForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            console.log("submitted")
+            if(videoInput.data === null){
+                console.log("no video selected")
+                return
+            }
+            window.api.uploadVideo({"videoUrl": videoInput.data, "cover": "filler", "description":null, "title":"random title", "tags":'["testTag", "second tag"]'})
+
             });
         </script>
         <script>

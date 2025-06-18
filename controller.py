@@ -52,6 +52,9 @@ class controller:
 
         elif type=="signOutrequest":
             results, message = self.instances["connection"].signOut()
+        elif type=="uploadVideoRequest":
+            results, message = self.instances["connection"].uploadVideo(data)
 
+    
 
         return True
