@@ -127,27 +127,26 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Signup</h2>
         <form>
-            <input type="text" id="loginUsername" placeholder="Username" required></input>
-            <input type="password" id="loginPassword" placeholder="Password" required></input>
-            <button type="submit" id="loginButton">Sign in</button>
+            <input type="text" id="signupUsername" placeholder="Username" required></input>
+            <input type="password" id="signupPassword" placeholder="Password" required></input>
+            <button type="submit" id="signup">Create Account</button>
         </form>
-        <button id="NoAcc">Dont have an account?</button>
     </div>
 
 
     <script>
-        const loginButton = document.getElementById("loginButton");
+        const loginButton = document.getElementById("signup");
         const loginForm = document.querySelector("form");
         const noAccount = document.getElementById("NoAcc")
 
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const username = document.getElementById("loginUsername").value;
-            const password = document.getElementById("loginPassword").value;
+            const username = document.getElementById("signupUsername").value;
+            const password = document.getElementById("signupPassword").value;
             if (username !== '' && password !== '') {
-                const result = await window.api.login(username, password);
+                const result = await window.api.signup(username, password);
                 if (Array.isArray(result) && result[0] === false) {
                     const oldPopup = document.querySelector(".popup");
                     if (oldPopup) oldPopup.remove();
@@ -163,7 +162,6 @@
             }
         });
 
-        noAccount.addEventListener("click", () => window.api.noAccount())
 
 
 

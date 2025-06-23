@@ -20,4 +20,6 @@ contextBridge.exposeInMainWorld('api', {
   uploadPage: () => ipcRenderer.send("uploadPage"),
   openVideoFile: async () => await ipcRenderer.invoke('open-video-file'),
   uploadVideo: (data) => ipcRenderer.send("uploadVideo", data),
+  noAccount: () => ipcRenderer.send("noAccount"),
+  signup: async (username, password) => await ipcRenderer.invoke("signup", username, password),
 })

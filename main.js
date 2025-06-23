@@ -10,7 +10,8 @@ let python
 let loginResponseResolver = null;
 let userPfpResponseResolver = null;
 let getVideoBatchResponseResolver = null;
-let getTagsResponseResolver = null
+let getTagsResponseResolver = null;
+let signupResolver = null;
 let pythonBuffer = "";
 
 
@@ -45,6 +46,8 @@ app.whenReady().then(() => {
   ipcMain.on("home",
     () => win.loadFile("resources/mainMenu.html"),
   )
+
+  ipcMain.on("noAccount", () => win.loadFile("resources/signupPage.html"))
 
   
   ipcMain.handle('open-video-file', async () => {
@@ -141,6 +144,10 @@ app.whenReady().then(() => {
     (event, username, password) => login(username, password),
   )
 
+  ipcMain.handle("signup",
+    (event, username, password) => signup(username, password),
+  )
+
 
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
@@ -191,6 +198,23 @@ function login(username, password) {
     loginResponseResolver = resolve;
     const userData = {
       type: "loginPageRequest",
+      username: username,
+      password: password
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(userData) + "\n");
+    } else {
+        loginResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+}
+
+function signup(username, password) {
+  return new Promise((resolve, reject) => {
+    signupResolver = resolve;
+    const userData = {
+      type: "signupRequest",
       username: username,
       password: password
     };
@@ -292,6 +316,15 @@ async function pythonHandler(data) {
     console.log(obj["tags"])
     getTagsResponseResolver(obj["tags"])
     getTagsResponseResolver = null;
+  }
+  else if(obj["type"] == "signupResponse"){
+    if(obj["value"] === true){
+      win.loadFile("resources/mainMenu.html")
+    }
+    if (loginResponseResolver) {
+      signupResolver([obj["value"], obj["message"]]);
+      signupResolver = null;
+    }
   }
   
 }

@@ -54,6 +54,12 @@ class controller:
             results, message = self.instances["connection"].signOut()
         elif type=="uploadVideoRequest":
             results, message = self.instances["connection"].uploadVideo(data)
+        elif type =="signupRequest":
+            results, message = self.instances["connection"].signUp(data)
+            data = {"type": "loginResponse", "value":results, "message":message}
+            print(json.dumps(data), flush=True)
+            if results:
+                self.instances["userData"] = userStore.user(self.instances["connection"])
 
     
 
