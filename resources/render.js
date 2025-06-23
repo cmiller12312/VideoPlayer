@@ -1,6 +1,8 @@
 const settings = document.getElementById("Settings")
 const home = document.getElementById("homeButton")
 const user = document.getElementById("profilePicture")
+const search = document.getElementById("searchIcon")
+const searchInput = document.getElementById("searchInput")
 
 
 try{
@@ -24,4 +26,10 @@ catch {
     console.log("couldnt make user")
 }
 
+try{
+    search.addEventListener("click", () => window.api.search(searchInput.textContent))
+}
+catch {
+    console.log("couldnt make search")
+}
 

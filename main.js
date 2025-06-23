@@ -12,6 +12,7 @@ let userPfpResponseResolver = null;
 let getVideoBatchResponseResolver = null;
 let getTagsResponseResolver = null;
 let signupResolver = null;
+let searchResolver = null;
 let pythonBuffer = "";
 
 
@@ -152,6 +153,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
   ipcMain.handle("getTags", () => getTags())
+  ipcMain.handle("search", () => search())
 
   const { spawn } = require("child_process");
 
@@ -286,6 +288,25 @@ async function getVideoBatch(){
         python.stdin.write(JSON.stringify(data) + "\n");
     } else {
         getVideoBatchResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+
+}
+
+async function search(input){
+   return new Promise((resolve, reject) => {
+    searchResolver = resolve;
+    const data = {
+      type: "searchRequest",
+      data: input,
+
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(data) + "\n");
+        win.loadFile("resources/search.html")
+    } else {
+        searchResolver = null;
         reject("Python is not writable");
     }
   });
