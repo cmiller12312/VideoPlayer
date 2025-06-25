@@ -27,7 +27,10 @@ catch {
 }
 
 try{
-    search.addEventListener("click", () => window.api.search(searchInput.textContent))
+    search.addEventListener("click", () => {
+        console.log(window.api.search(searchInput.value))
+        console.log("SEARCH: " + searchInput.value)
+    })
 }
 catch {
     console.log("couldnt make search")

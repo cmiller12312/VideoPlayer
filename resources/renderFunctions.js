@@ -119,3 +119,24 @@ function formatDuration(seconds) {
     return `${paddedMins}:${paddedSecs}`;
   }
 }
+
+function createUserPopup(username, followerCount, pfp){
+  const container = document.createElement("div")
+  container.className = "userPopup"
+
+  const userPfp = document.createElement("img")
+  userPfp.style.backgroundImage = avatar.src = `data:image/png;base64,${pfp}`;
+  userPfp.className = "userPopupPfp"
+
+  const textContainer = document.createElement("div")
+  textContainer.className = textContainer
+
+  const user = document.createElement("div")
+  user.textContent = username
+
+  return container
+}
+
+function createVideoPopup(title, user, coverImg, userPfp, videoLength){
+
+}

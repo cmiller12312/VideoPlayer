@@ -117,6 +117,16 @@ class connection:
         self.token = None
         self.filters = []
         return True, None
+    
+    def search(self, data):
+        try:
+            request = requests.post(self.host + "/search/", data=data)
+            return True, request.json()
+        except:
+            try:
+                return False, request.json()["message"]
+            except:
+                return False, "Failed to connect"
 
 
 if __name__ == "__main__":

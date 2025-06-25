@@ -153,7 +153,7 @@ app.whenReady().then(() => {
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
   ipcMain.handle("getTags", () => getTags())
-  ipcMain.handle("search", () => search())
+  ipcMain.handle("search", (event, input) => search(input))
 
   const { spawn } = require("child_process");
 
@@ -297,6 +297,7 @@ async function getVideoBatch(){
 async function search(input){
    return new Promise((resolve, reject) => {
     searchResolver = resolve;
+    console.log("passed value : " + input)
     const data = {
       type: "searchRequest",
       data: input,
@@ -304,7 +305,6 @@ async function search(input){
     };
       if (python && python.stdin.writable) {
         python.stdin.write(JSON.stringify(data) + "\n");
-        win.loadFile("resources/search.html")
     } else {
         searchResolver = null;
         reject("Python is not writable");
@@ -342,10 +342,15 @@ async function pythonHandler(data) {
     if(obj["value"] === true){
       win.loadFile("resources/mainMenu.html")
     }
-    if (loginResponseResolver) {
+    if (signupResolver) {
       signupResolver([obj["value"], obj["message"]]);
       signupResolver = null;
     }
+  }
+  else if(obj["type"] == "searchResponse"){
+    searchResolver(obj["data"]);
+    searchResolver = null;
+    
   }
   
 }

@@ -60,6 +60,10 @@ class controller:
             print(json.dumps(data), flush=True)
             if results:
                 self.instances["userData"] = userStore.user(self.instances["connection"])
+        elif type =="searchRequest":
+            results, message = self.instances["connection"].search(data)
+            data = {"type": "searchResponse", "data": message}
+            print(json.dumps(data), flush=True)
 
     
 
