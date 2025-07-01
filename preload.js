@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('api', {
   getUserPfp: async () => await ipcRenderer.invoke("getUserPfp"),
   getVideoBatch: async () => await ipcRenderer.invoke("getVideoBatch"),
   saveSettings: (data) => ipcRenderer.send("saveSettings", data),
-  signOut: (data) => ipcRenderer.send("signOut"),
+  signOut: () => ipcRenderer.send("signOut"),
   uploadPage: () => ipcRenderer.send("uploadPage"),
   openVideoFile: async () => await ipcRenderer.invoke('open-video-file'),
   uploadVideo: (data) => ipcRenderer.send("uploadVideo", data),
@@ -23,4 +23,5 @@ contextBridge.exposeInMainWorld('api', {
   videoPage: () => ipcRenderer.send("videoPage"),
   getRequestedVideo: () => ipcRenderer.invoke("getRequestedVideo"),
   setRequestedVideo: (title, user) => ipcRenderer.send("setRequestedVideo", title, user),
+
 })

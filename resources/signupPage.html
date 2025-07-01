@@ -71,14 +71,14 @@
 
         }
 
-        #NoAcc{
+        #backToLogin{
             border: transparent;
             background-color: transparent;
             color: #ffc04c;
             margin-top: 15px;
         }
 
-        #NoAcc:hover{
+        #backToLogin:hover{
             cursor:pointer;
             transform: scale(1.05);
         }
@@ -133,6 +133,7 @@
             <input type="password" id="signupPassword" placeholder="Password" required></input>
             <button type="submit" id="signup">Create Account</button>
         </form>
+        <button id="backToLogin">Back to login</button>
     </div>
 
 
@@ -140,6 +141,7 @@
         const loginButton = document.getElementById("signup");
         const loginForm = document.querySelector("form");
         const noAccount = document.getElementById("NoAcc")
+        const backToLogin = document.getElementById("backToLogin");
 
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -161,6 +163,10 @@
                 }
             }
         });
+
+        backToLogin.addEventListener("click", ()=> {
+            window.api.signOut()
+        })
 
 
 
