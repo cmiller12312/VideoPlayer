@@ -20,4 +20,7 @@ contextBridge.exposeInMainWorld('api', {
   noAccount: () => ipcRenderer.send("noAccount"),
   signup: async (username, password) => await ipcRenderer.invoke("signup", username, password),
   search: async (input) => await ipcRenderer.invoke("search", input=input),
+  videoPage: () => ipcRenderer.send("videoPage"),
+  getRequestedVideo: () => ipcRenderer.invoke("getRequestedVideo"),
+  setRequestedVideo: (title, user) => ipcRenderer.send("setRequestedVideo", title, user),
 })

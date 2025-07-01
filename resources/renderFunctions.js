@@ -3,18 +3,20 @@ const url = "http://127.0.0.1:8000/"
 function createVideo(title, user, coverImg, userPfp, videoLength) {
   const content = document.getElementById("contentMenu");
   const card = document.createElement('div');
+  card.addEventListener("click", () => {
+    window.api.setRequestedVideo(title, user)
+    window.api.videoPage()
+  })
   card.className = 'videoCard';
   const thumbnail = document.createElement('img');
   thumbnail.className = 'videoThumbnail';
   thumbnail.src = `data:image/png;base64,${coverImg}`; 
 
-  const time = document.createElement("div")
+  const time = document.createElement("div");
   time.className = 'VideoTime'
-  time.textContent = formatDuration(videoLength)
+  time.textContent = formatDuration(videoLength);
 
-  const more = document.createElement("div")
-
-
+  const more = document.createElement("div");
 
   const info = document.createElement('div');
   info.className = 'videoInfo';
@@ -119,3 +121,4 @@ function createUserPopup(username, followerCount, pfp){
 function createVideoPopup(title, user, coverImg, userPfp, videoLength){
 
 }
+

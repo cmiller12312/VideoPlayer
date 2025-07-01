@@ -139,6 +139,7 @@
       </button>
     </div>
   </div>
+  <div id="test"></div>
 
     <button class="infoButton"><i class="fas fa-circle-info" style="font-size: 16px;"></i></button>
     <script>
@@ -148,6 +149,25 @@
         pfp.style.backgroundImage = `url(${imageUrl})`;
         })
     </script>
+    <script>
+        window.api.getRequestedVideo()
+        .then ((results) => {
+            const videoTitle = results["title"]
+            const videoUser = results["user"]
+            const url = "http://127.0.0.1:8000/videos/" + videoUser + "/" + videoTitle + ".mp4"
+            const video = document.createElement("video")
+            console.log(url)
+            video.src = url
+            video.controls = true;
+            video.autoplay = true;
+            const test = document.getElementById("test")
+            test.appendChild(video)
+
+        })
+
+        
+    </script>
     <script src="render.js"></script>
+
 </body>
 </html>

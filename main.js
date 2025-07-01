@@ -14,6 +14,7 @@ let getTagsResponseResolver = null;
 let signupResolver = null;
 let searchResolver = null;
 let pythonBuffer = "";
+let requestedVideo = {"title": null, "user": null}
 
 
 const createWindow = () => {
@@ -44,6 +45,19 @@ app.whenReady().then(() => {
     () => win.loadFile("resources/uploadVideo.html"),
   )
 
+  ipcMain.on("setRequestedVideo",
+    (event, title, user) => {
+      requestedVideo.title = title
+      requestedVideo.user = user
+    }
+  )
+
+  ipcMain.handle("getRequestedVideo",
+    () => {return requestedVideo}
+  )
+  
+
+
   ipcMain.on("home",
     () => win.loadFile("resources/mainMenu.html"),
   )
@@ -60,21 +74,6 @@ app.whenReady().then(() => {
     return filePaths[0];
   });
   
-
-  ipcMain.on("addTag",
-    (event, tag) => {
-      const tagData = {
-      type: "addTagRequest",
-      tag: tag,
-    };
-      if (python && python.stdin.writable) {
-        python.stdin.write(JSON.stringify(tagData) + "\n");
-        win.loadFile("resources/mainMenu.html")
-    } else {
-        console.log("Python is not writable");
-    }
-    }
-  )
 
   ipcMain.on("uploadVideo",
     (event, data) => {
@@ -123,6 +122,8 @@ app.whenReady().then(() => {
     }
     }
   )
+
+  ipcMain.on("videoPage", ()=> win.loadFile("resources/videoPage.html"))
 
   ipcMain.handle("userPage", (event, user) => userPage(user))
 
