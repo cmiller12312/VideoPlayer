@@ -61,19 +61,19 @@ async function getVideoBatch() {
   window.api.getVideoBatch().then(data => {
     console.log(data);
     for (const video of data) {
-      retrieveVideo(video.username, video.title, null);
+      retrieveVideo(video.username, video.title);
     }
   });
 }
   
-async function retrieveVideo(username, title, filters) {
+async function retrieveVideo(username, title) {
   try {
     const response = await fetch(url + "getVideo/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ username, title, filters})
+      body: JSON.stringify({ username, title})
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -120,5 +120,24 @@ function createUserPopup(username, followerCount, pfp){
 
 function createVideoPopup(title, user, coverImg, userPfp, videoLength){
 
+}
+
+async function getVideoData(title, username){
+  try {
+    const response = await fetch(url + "getVideo/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, title})
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 

@@ -106,6 +106,39 @@
             animation: buttonSelect 0.3s ease-in forwards;
         }
 
+        #title,
+        #description {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: var(--text);
+            resize: none;
+            overflow:hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        #title{
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        #description{
+            height: 60px;
+        }
+
+        #title:focus,
+        #description:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+
+
         @keyframes buttonSelect {
             0% {
                 transform: scale(100%);
@@ -154,7 +187,8 @@
             <h3 style="font-weight: 500; margin-bottom: 8px;">Thumbnail Preview:</h3>
             <img id="thumbnailPreview" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border); max-width: 200px; max-height: 200px;" />
         </div>
-        
+        <textarea type="text" placeholder="Title" id="title" maxlength="18"></textarea>
+        <textarea type="text" placeholder="Description" id="description" maxlength="2000"></textarea>
 
         
         <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; display: block;">
@@ -170,6 +204,8 @@
         const videoPreviewContainer = document.getElementById('videoPreviewContainer');
         const thumbnailPreview = document.getElementById('thumbnailPreview');
         const thumbnailInput = document.getElementById("thumbnailInput");
+        const descriptionInput = document.getElementById("description");
+        const titleInput = document.getElementById("title")
         videoInput.data = null
 
         videoInput.addEventListener('click', async function (){
@@ -203,7 +239,7 @@
                     reader.readAsDataURL(imageFile);
                 });
             }
-            window.api.uploadVideo({"videoUrl": videoInput.data, "cover":cover  ,"description":"filler", "title":"random title", "tags":'["testTag", "second tag"]'})
+            window.api.uploadVideo({"videoUrl": videoInput.data, "cover":cover  ,"description":descriptionInput.value, "title":titleInput.value})
 
             });
         </script>
