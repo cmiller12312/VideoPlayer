@@ -69,10 +69,11 @@ class connection:
     def followUser(self, data):
         try:
             username = data["username"]
+            
         except:
             return False, "no user specified"
         try:
-            request = requests.post(self.host + "/followSettings/", headers={"Authorization": self.token}, data={"username":username})
+            request = requests.post(self.host + "/followSettings/", headers={"Authorization": self.token}, json={"username":username})
         except:
             try:
                 return False, request.json()["message"]
@@ -114,6 +115,22 @@ class connection:
         except:
             try:
                 return False, request.json()["message"]
+            except:
+                return False, "Failed to connect"
+
+    def followStatus(self, username):
+        try:
+            response = requests.post(
+                self.host + "/followStatus/",
+                headers={"Authorization": self.token},
+                json={"username": username}
+            )
+            response.raise_for_status()
+            result = response.json()["status"]
+            return True, result
+        except requests.RequestException as e:
+            try:
+                return False, response.json().get("message", str(e))
             except:
                 return False, "Failed to connect"
 

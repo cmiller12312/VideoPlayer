@@ -14,13 +14,7 @@ class controller:
 
     def run(self, data):
         type = data["type"]
-        if type == "userPageRequest":
-            pass
-
-        elif type == "videoPageRequest":
-            pass
-
-        elif type=="loginPageRequest":
+        if type=="loginPageRequest":
             results, message = self.instances["connection"].login({"username":data["username"], "password":data["password"]})
 
             data = {"type": "loginResponse", "value":results, "message":message}
@@ -64,6 +58,15 @@ class controller:
             results, message = self.instances["connection"].search(data)
             data = {"type": "searchResponse", "data": message}
             print(json.dumps(data), flush=True)
+
+        elif type =="followStatusRequest":
+            results, message = self.instances["connection"].followStatus(data["username"])
+            data = {"type": "followStatusResponse", "data": message}
+            print(json.dumps(data), flush=True)
+        elif type =="followRequest":
+            self.instances["connection"].followUser(data)
+
+
 
     
 

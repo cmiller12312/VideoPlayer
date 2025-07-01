@@ -15,6 +15,7 @@ let signupResolver = null;
 let searchResolver = null;
 let pythonBuffer = "";
 let requestedVideo = {"title": null, "user": null}
+let followStatusResolver = null;
 
 
 const createWindow = () => {
@@ -109,6 +110,7 @@ app.whenReady().then(() => {
     }
   )
 
+
   ipcMain.on("signOut",
     () => {
       const signOutData = {
@@ -117,6 +119,20 @@ app.whenReady().then(() => {
       if (python && python.stdin.writable) {
         python.stdin.write(JSON.stringify(signOutData) + "\n");
         win.loadFile("resources/loginPage.html")
+    } else {
+        console.log("Python is not writable");
+    }
+    }
+  )
+
+  ipcMain.on("follow",
+    (event, data) => {
+      const followData = {
+      type: "followRequest",
+      username: data,
+      };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(followData) + "\n");
     } else {
         console.log("Python is not writable");
     }
@@ -133,6 +149,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle("signup",
     (event, username, password) => signup(username, password),
+  )
+
+  ipcMain.handle("followStatus",
+    (event, username) => followStatus(username),
   )
 
 
@@ -192,6 +212,22 @@ function login(username, password) {
         python.stdin.write(JSON.stringify(userData) + "\n");
     } else {
         loginResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
+}
+
+function followStatus(username) {
+  return new Promise((resolve, reject) => {
+    followStatusResolver = resolve;
+    const userData = {
+      type: "followStatusRequest",
+      username: username,
+    };
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(userData) + "\n");
+    } else {
+        followStatusResolver = null;
         reject("Python is not writable");
     }
   });
@@ -316,6 +352,11 @@ async function pythonHandler(data) {
   else if(obj["type"] == "searchResponse"){
     searchResolver(obj["data"]);
     searchResolver = null;
+    
+  }
+  else if(obj["type"] == "followStatusResponse"){
+    followStatusResolver(obj["data"]);
+    followStatusResolver = null;
     
   }
   

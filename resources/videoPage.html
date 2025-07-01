@@ -19,6 +19,8 @@
         --text: #1f2937;
         --muted: #6b7280;
         --border: #e5e7eb;
+        --follow: #93c0ff;
+        --followHover: #83abe2;
         }
 
         * {
@@ -137,13 +139,24 @@
         }
 
         .videoPfp {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--border);
-            background-color: var(--muted);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--muted);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        outline: none;
+        display: inline-block;
         }
+
+        .videoPfp:hover {
+            animation: buttonSelect 0.1s ease-in forwards;
+        }
+
 
         .videoUser {
             font-size: 16px;
@@ -263,7 +276,20 @@
         align-items: flex-start;
         }
 
+        #followBtn {
+            width: 60px;
+            height: 25px;
+            border: 0;
+            background-color: var(--follow);
+            border-radius: 20px;
+            margin-left: 10px;
+            transition: 0.3s, color 0.4s;
+        }
 
+        #followBtn:hover {
+            animation: buttonSelect 0.1s ease-in forwards;
+            background-color: var(--followHover);
+        }
 
 
         @keyframes buttonSelect {
@@ -275,6 +301,18 @@
             }
             100% {
                 transform: scale(115%);
+            }
+        }
+
+        @keyframes cardSelect {
+        0% {
+            transform: scale(100%);
+            }
+        60% {
+            transform: scale(102%);
+            }
+        100% {
+            transform: scale(105%);
             }
         }
     </style>
@@ -332,15 +370,20 @@
             title.textContent = videoTitle;
             title.className = "videoTitle";
 
+            const followBtn = document.createElement("button")
+            followBtn.id = "followBtn"
+            followBtn.textContent = "Follow"
+
+
             const authorContainer = document.createElement("div");
             authorContainer.className = "authorContainer";
 
-            const pfp = document.createElement("img");
+            const pfp = document.createElement("button");
             pfp.className = "videoPfp";
 
             getVideoData(videoTitle,videoUser).then((data) => {
                 const imageUrl = `data:image/png;base64,${data["userPfp"]}`;
-                pfp.src = imageUrl;
+                pfp.style.backgroundImage = `url(${imageUrl})`;
                 description.textContent = data["description"]
                 description.className = "description"
                 views.textContent = "views: " + data["views"]
@@ -358,8 +401,36 @@
             container.appendChild(authorContainer);
             authorContainer.appendChild(pfp);
             authorContainer.appendChild(user);
-            container.appendChild(views)
-            container.appendChild(description)
+            authorContainer.appendChild(followBtn);
+            container.appendChild(views);
+            container.appendChild(description);
+
+            pfp.addEventListener("click", () => {
+                window.api.userPage(videoUser)
+            })
+            function updateFollowBtn(isFollowing) {
+                followBtn.textContent = isFollowing ? "Unfollow" : "Follow";
+            }
+
+            window.api.followStatus(videoUser).then((status) => {
+                let isFollowing = status;
+                console.log("IS FOLLOWING: " + isFollowing)
+                updateFollowBtn(isFollowing);
+                window.api.followStatus(videoUser).then((status) => {
+                    isFollowing = status;
+                    updateFollowBtn(isFollowing);
+                });
+
+                followBtn.addEventListener("click", () => {
+                    window.api.follow(videoUser);
+                    isFollowing = !isFollowing;
+                    updateFollowBtn(isFollowing);
+                    console.log(`${isFollowing ? "Followed" : "Unfollowed"}: ${videoUser}`);
+                });
+
+            });
+
+
         });
 
         

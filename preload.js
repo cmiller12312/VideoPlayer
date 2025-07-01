@@ -23,5 +23,7 @@ contextBridge.exposeInMainWorld('api', {
   videoPage: () => ipcRenderer.send("videoPage"),
   getRequestedVideo: () => ipcRenderer.invoke("getRequestedVideo"),
   setRequestedVideo: (title, user) => ipcRenderer.send("setRequestedVideo", title, user),
+  followStatus: async (username) => await ipcRenderer.invoke("followStatus", username),
+  follow: (data) => ipcRenderer.send("follow", data)
 
 })
