@@ -124,21 +124,6 @@ app.whenReady().then(() => {
     }
   )
 
-  ipcMain.on("deleteTag",
-    (event, tag) => {
-      const tagData = {
-      type: "deleteTagRequest",
-      tag: tag,
-    };
-      if (python && python.stdin.writable) {
-        python.stdin.write(JSON.stringify(tagData) + "\n");
-        win.loadFile("resources/mainMenu.html")
-    } else {
-        console.log("Python is not writable");
-    }
-    }
-  )
-
   ipcMain.handle("userPage", (event, user) => userPage(user))
 
   ipcMain.handle("login",
@@ -152,7 +137,6 @@ app.whenReady().then(() => {
 
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
-  ipcMain.handle("getTags", () => getTags())
   ipcMain.handle("search", (event, input) => search(input))
 
   const { spawn } = require("child_process");
@@ -244,20 +228,6 @@ function getUserPfp(){
   });
 }
   
-async function getTags(){
-  return new Promise((resolve, reject) => {
-    getTagsResponseResolver = resolve;
-    const data = {
-      type: "getTagsRequest"
-    };
-      if (python && python.stdin.writable) {
-        python.stdin.write(JSON.stringify(data) + "\n");
-    } else {
-        getVideoBatchResponseResolver = null;
-        reject("Python is not writable");
-    }
-  });
-}
 
 async function userPage(user){
   console.log("userPage")
@@ -332,11 +302,6 @@ async function pythonHandler(data) {
   else if(obj["type"] == "getVideoBatchResponse"){
     getVideoBatchResponseResolver(obj["titles"])
     getVideoBatchResponseResolver = null;
-  }
-  else if(obj["type"] == "getTagsResponse"){
-    console.log(obj["tags"])
-    getTagsResponseResolver(obj["tags"])
-    getTagsResponseResolver = null;
   }
   else if(obj["type"] == "signupResponse"){
     if(obj["value"] === true){

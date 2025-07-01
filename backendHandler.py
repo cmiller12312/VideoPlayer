@@ -90,18 +90,7 @@ class connection:
             except:
                 return False, "Failed to connect"
         return True, request.json()["Titles"]
-    
-    def addTag(self, data):
-        for i in self.filters:
-            if i == data["tag"]:
-                return
-        if len(data["tag"]) == 0:
-            return
 
-        
-        self.filters.append(data['tag'])
-    def deleteTag(self, data):
-        self.filters.remove(data["tag"])
 
     def saveSettings(self, data):
         try:
