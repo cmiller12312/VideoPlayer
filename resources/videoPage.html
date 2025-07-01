@@ -107,6 +107,11 @@
             animation: buttonSelect 0.3s ease-in forwards;
         }
 
+        #leftSideBar {
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+
         @keyframes buttonSelect {
             0% {
                 transform: scale(100%);
@@ -139,7 +144,6 @@
       </button>
     </div>
   </div>
-  <div id="test"></div>
 
     <button class="infoButton"><i class="fas fa-circle-info" style="font-size: 16px;"></i></button>
     <script>
@@ -149,7 +153,8 @@
         pfp.style.backgroundImage = `url(${imageUrl})`;
         })
     </script>
-    <script>
+    <div id="leftSideBar">
+        <script>
         window.api.getRequestedVideo()
         .then ((results) => {
             const videoTitle = results["title"]
@@ -160,13 +165,24 @@
             video.src = url
             video.controls = true;
             video.autoplay = true;
-            const test = document.getElementById("test")
-            test.appendChild(video)
+            video.className = "video"
+            const container = document.getElementById("leftSideBar")
+            container.appendChild(video)
+
+            const title = document.createElement("p")
+            title.textContent = videoTitle
+            const user = document.createElement("p")
+            user.textContent = videoUser
+
+            container.appendChild(title)
+            container.appendChild(user)
 
         })
 
         
-    </script>
+        </script>
+    </div>
+    
     <script src="render.js"></script>
 
 </body>
