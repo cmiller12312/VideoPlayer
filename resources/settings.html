@@ -177,6 +177,12 @@
     </div>
 
     <div class="settingsGroup">
+      <label for="bio">Bio</label>
+      <input type="text" id="bio" maxlength="500"/>
+    </div>
+
+
+    <div class="settingsGroup">
       <button id="signOut">Sign Out</button>
     </div>
 
@@ -198,28 +204,26 @@
   document.getElementById("saveSettings").addEventListener("click", () => {
   const fileInput = document.getElementById("pfp");
   const imageFile = fileInput.files[0];
+  const bioInput = document.getElementById("bio");
 
   const settingsData = {
-    pfp: null
+    pfp: null,
+    bio: bioInput.value,
   };
 
   if (imageFile) {
     const reader = new FileReader();
-    console.log("got here - before reading");
-
     reader.onload = function (event) {
       const base64Data = event.target.result.split(",")[1];
-      console.log("got here - after reading");
       settingsData.pfp = base64Data;
-      console.log("sending settings to backend");
       window.api.saveSettings(settingsData);
     };
-
     reader.readAsDataURL(imageFile);
   } else {
     window.api.saveSettings(settingsData);
   }
 });
+
 
 </script>
 

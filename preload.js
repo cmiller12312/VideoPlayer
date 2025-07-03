@@ -4,10 +4,8 @@ let userData = null
 contextBridge.exposeInMainWorld('api', {
   settings: () => ipcRenderer.send("settings"),
   home: () => ipcRenderer.send("home"),
-  userPage: async (user) => {
-    userData = await ipcRenderer.invoke("userPage", user)
-    console.log(userData)
-  },
+  userPageContent: async () => await ipcRenderer.invoke("userPageContent"),
+  userPage: (data) => ipcRenderer.send("userPage", data),
   login: async (username, password) => await ipcRenderer.invoke("login", username, password),
   getUserData: () => userData,
   getUserPfp: async () => await ipcRenderer.invoke("getUserPfp"),
@@ -24,6 +22,6 @@ contextBridge.exposeInMainWorld('api', {
   getRequestedVideo: () => ipcRenderer.invoke("getRequestedVideo"),
   setRequestedVideo: (title, user) => ipcRenderer.send("setRequestedVideo", title, user),
   followStatus: async (username) => await ipcRenderer.invoke("followStatus", username),
-  follow: (data) => ipcRenderer.send("follow", data)
+  follow: (data) => ipcRenderer.send("follow", data),
 
 })

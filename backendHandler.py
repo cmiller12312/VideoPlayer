@@ -95,13 +95,19 @@ class connection:
 
     def saveSettings(self, data):
         try:
-            request = requests.post(self.host + "/userSettings/", headers={"Authorization": self.token}, data=data)
-        except:
+            request = requests.post(
+                self.host + "/userSettings/",
+                headers={"Authorization": self.token},
+                json=data
+            )
+            request.raise_for_status()
+        except requests.RequestException as e:
             try:
-                return False, request.json()["message"]
+                return False, request.json().get("message", str(e))
             except:
                 return False, "Failed to connect"
         return True, None
+
     
     def signOut(self):
         self.token = None
@@ -134,6 +140,19 @@ class connection:
             except:
                 return False, "Failed to connect"
 
+    def getUserPageData(self, data):
+        try:
+            response = requests.post(
+                self.host + "/userDetails/",
+                json={"username": data}
+            )
+            response.raise_for_status()
+            return True, response.json()
+        except requests.RequestException as e:
+            try:
+                return False, response.json().get("message", str(e))
+            except:
+                return False, "Failed to connect"
 
 if __name__ == "__main__":
 

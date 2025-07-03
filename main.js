@@ -16,7 +16,8 @@ let searchResolver = null;
 let pythonBuffer = "";
 let requestedVideo = {"title": null, "user": null}
 let followStatusResolver = null;
-
+userPageResponseResolver = null;
+let requestedUserPage = null
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -100,6 +101,7 @@ app.whenReady().then(() => {
       const settingsData = {
       type: "saveSettingsRequest",
       pfp: data.pfp,
+      bio: data.bio,
     };
       if (python && python.stdin.writable) {
         python.stdin.write(JSON.stringify(settingsData) + "\n");
@@ -140,8 +142,12 @@ app.whenReady().then(() => {
   )
 
   ipcMain.on("videoPage", ()=> win.loadFile("resources/videoPage.html"))
+  ipcMain.on("userPage", (event, data) => {
+    win.loadFile("resources/userPage.html")
+    requestedUserPage = data
+  })
 
-  ipcMain.handle("userPage", (event, user) => userPage(user))
+  ipcMain.handle("userPageContent", (event, user) => userPage(user))
 
   ipcMain.handle("login",
     (event, username, password) => login(username, password),
@@ -266,23 +272,21 @@ function getUserPfp(){
 }
   
 
-async function userPage(user){
-  console.log("userPage")
-  console.log(user)
-  const userData = {
-    type: "userPageRequest",
-    content: user
-  }
-
-  
-  if (python && python.stdin.writable) {
-    python.stdin.write(JSON.stringify(userData) + "\n");
-  } else {
-    console.error("Python is not writable");
-  }
-  
-  win.loadFile("resources/userPage.html")
-  return user
+async function userPage(){
+  return new Promise((resolve, reject) => {
+    userPageResponseResolver = resolve;
+    const data = {
+      type: "userPageRequest",
+      username: requestedUserPage
+    };
+      console.log(requestedUserPage)
+      if (python && python.stdin.writable) {
+        python.stdin.write(JSON.stringify(data) + "\n");
+    } else {
+        userPageResponseResolver = null;
+        reject("Python is not writable");
+    }
+  });
 }
 
 async function getVideoBatch(){
@@ -358,6 +362,10 @@ async function pythonHandler(data) {
     followStatusResolver(obj["data"]);
     followStatusResolver = null;
     
+  }
+  else if(obj["type"] == "userPageResponse"){
+    userPageResponseResolver(obj["data"]);
+    userPageResponseResolver = null;
   }
   
 }

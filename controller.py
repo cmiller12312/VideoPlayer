@@ -44,6 +44,8 @@ class controller:
             if data["pfp"] != None:
                 self.instances["userData"].setProfilePicture()
 
+
+
         elif type=="signOutrequest":
             results, message = self.instances["connection"].signOut()
         elif type=="uploadVideoRequest":
@@ -65,6 +67,10 @@ class controller:
             print(json.dumps(data), flush=True)
         elif type =="followRequest":
             self.instances["connection"].followUser(data)
+        elif type =="userPageRequest":
+            results, message = self.instances["connection"].getUserPageData(data["username"])
+            data = {"type": "userPageResponse", "data": message}
+            print(json.dumps(data), flush=True)
 
 
 

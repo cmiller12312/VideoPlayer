@@ -20,7 +20,11 @@ catch {
 }
 
 try{
-    user.addEventListener("click", () => window.api.userPage("test"))
+    user.addEventListener("click",() => {
+        window.api.getUserPfp().then((data) => {
+            window.api.userPage(data["username"])
+        })
+    })
 }
 catch {
     console.log("couldnt make user")
