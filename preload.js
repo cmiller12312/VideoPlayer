@@ -24,5 +24,6 @@ contextBridge.exposeInMainWorld('api', {
   followStatus: async (username) => await ipcRenderer.invoke("followStatus", username),
   follow: (data) => ipcRenderer.send("follow", data),
   searchPageContent: () => ipcRenderer.invoke("searchPageContent"),
+  info: () => ipcRenderer.send("info")
 
 })

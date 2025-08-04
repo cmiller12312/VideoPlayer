@@ -3,6 +3,8 @@ const home = document.getElementById("homeButton")
 const user = document.getElementById("profilePicture")
 const search = document.getElementById("searchIcon")
 const searchInput = document.getElementById("searchInput")
+const info = document.getElementById("info")
+const channelPage = document.getElementById("ChannelPage")
 
 
 try{
@@ -28,6 +30,23 @@ try{
 }
 catch {
     console.log("couldnt make user")
+}
+
+try{
+    channelPage.addEventListener("click",() => {
+        window.api.getUserPfp().then((data) => {
+            window.api.userPage(data["username"])
+        })
+    })
+}
+catch {
+    console.log("couldnt make channel page")
+}
+
+try{
+    info.addEventListener("click", () => window.api.info())
+}catch {
+    console.log("couldnt make info")
 }
 
 try{

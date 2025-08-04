@@ -142,6 +142,7 @@ app.whenReady().then(() => {
   )
 
   ipcMain.on("videoPage", ()=> win.loadFile("resources/videoPage.html"))
+  ipcMain.on("info", () => win.loadFile("resources/infoPage.html"))
   ipcMain.on("userPage", (event, data) => {
     win.loadFile("resources/userPage.html")
     requestedUserPage = data
