@@ -10,14 +10,14 @@ let python
 let loginResponseResolver = null;
 let userPfpResponseResolver = null;
 let getVideoBatchResponseResolver = null;
-let getTagsResponseResolver = null;
 let signupResolver = null;
 let searchResolver = null;
 let pythonBuffer = "";
 let requestedVideo = {"title": null, "user": null}
 let followStatusResolver = null;
-userPageResponseResolver = null;
+let userPageResponseResolver = null;
 let requestedUserPage = null
+let requestedSearchPage = null
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -149,6 +149,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle("userPageContent", (event, user) => userPage(user))
 
+  ipcMain.handle("searchPageContent", () => {
+    return requestedSearchPage
+  })
+
   ipcMain.handle("login",
     (event, username, password) => login(username, password),
   )
@@ -164,7 +168,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle("getUserPfp", () => getUserPfp())
   ipcMain.handle("getVideoBatch", () => getVideoBatch())
-  ipcMain.handle("search", (event, input) => search(input))
+  ipcMain.handle("search", (event, input) => {
+    search(input)
+    win.loadFile("resources/search.html")
+  })
 
   const { spawn } = require("child_process");
 
@@ -355,6 +362,7 @@ async function pythonHandler(data) {
   }
   else if(obj["type"] == "searchResponse"){
     searchResolver(obj["data"]);
+    requestedSearchPage = obj["data"]
     searchResolver = null;
     
   }

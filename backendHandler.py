@@ -116,7 +116,7 @@ class connection:
     
     def search(self, data):
         try:
-            request = requests.post(self.host + "/search/", data=data)
+            request = requests.post(self.host + "/search/", data=data, headers={"Authorization": self.token})
             return True, request.json()
         except:
             try:
