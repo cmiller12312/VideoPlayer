@@ -31,7 +31,7 @@ const createWindow = () => {
   win.loadFile('resources/loginPage.html')
   win.setMenu(null)
   win.title = ""
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
 }
 
